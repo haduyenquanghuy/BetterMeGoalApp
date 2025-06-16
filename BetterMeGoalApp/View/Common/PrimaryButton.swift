@@ -75,7 +75,7 @@ struct SecondaryButtonStyle: ButtonStyle {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color(.ink5))
             .clipShape(.rect(cornerRadius: 32))
-            .shadow(color: Color.black.opacity(0.24), radius: 0, y: configuration.isPressed ? 0 : 4)
+            .shadow(color: Color.black.opacity(0.16), radius: 0, y: configuration.isPressed ? 0 : 4)
             .offset(y: configuration.isPressed ? 4 : 0)
             .animation(.bouncy(duration: 0.2), value: configuration.isPressed)
             .sensoryFeedback(
@@ -94,8 +94,6 @@ struct SecondaryButtonStyle: ButtonStyle {
         PrimaryButton(height: 44, title: "Create an account")
         
         PrimaryButton(style: .secondary, title: "Login")
-        
-//        SecondaryButtonStyle(height: 44)
     }
     .padding(.horizontal, 32)
 }

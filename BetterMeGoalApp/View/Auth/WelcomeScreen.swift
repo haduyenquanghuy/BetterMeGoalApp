@@ -34,10 +34,27 @@ struct WelcomeScreen: View {
             }
             .padding(.top, 12)
             
-            
-            
             Spacer()
-            // checkbox draw path
+
+            HStack(alignment: .top, spacing: 16) {
+                AnimationCheckBox(isSelected: $isConfirmPrivacy)
+                    .padding(.top, 1)
+                
+                TermsTextView()
+                    .frame(maxWidth: .infinity)
+                    .onOpenURL { url in
+                        switch url.absoluteString {
+                        case "action://terms":
+                            print("Terms & Conditions tapped")
+                        case "action://privacy":
+                            print("Privacy Policy tapped")
+                        default:
+                            break
+                        }
+                    }
+            }
+            .padding(.horizontal, 32)
+            .padding(.bottom, 40)
 
             
             VStack(spacing: 12) {
@@ -54,27 +71,35 @@ struct WelcomeScreen: View {
     }
 }
 
-#Preview {
-    WelcomeScreen()
+struct TermsTextView: View {
+    
+    let font = BMFont.averta.font(with: 16)
+    
+    var body: some View {
+        Text(makeAttributedString())
+            .font(font)
+            .foregroundStyle(.ink80)
+    }
+
+    private func makeAttributedString() -> AttributedString {
+        var attributed = AttributedString("I agree to BetterMe Terms & Conditions and acknowledge the Privacy Policy")
+
+        if let range1 = attributed.range(of: "Terms & Conditions") {
+            attributed[range1].foregroundColor = .bluePrimary
+            attributed[range1].font = font.bold()
+            attributed[range1].link = URL(string: "action://terms")!
+        }
+
+        if let range2 = attributed.range(of: "Privacy Policy") {
+            attributed[range2].foregroundColor = .bluePrimary
+            attributed[range2].font = font.bold()
+            attributed[range2].link = URL(string: "action://privacy")!
+        }
+
+        return attributed
+    }
 }
 
-struct MyIcon: Shape {
-    func path(in rect: CGRect) -> Path {
-        var path = Path()
-        let width = rect.size.width
-        let height = rect.size.height
-        path.move(to: CGPoint(x: 0.96143*width, y: 0.03325*height))
-        path.addCurve(to: CGPoint(x: 0.9634*width, y: 0.13928*height), control1: CGPoint(x: 0.9854*width, y: 0.06185*height), control2: CGPoint(x: 0.98628*width, y: 0.10932*height))
-        path.addLine(to: CGPoint(x: 0.3334*width, y: 0.96428*height))
-        path.addCurve(to: CGPoint(x: 0.2907*width, y: 0.98749*height), control1: CGPoint(x: 0.32225*width, y: 0.97889*height), control2: CGPoint(x: 0.30685*width, y: 0.98726*height))
-        path.addCurve(to: CGPoint(x: 0.24757*width, y: 0.96553*height), control1: CGPoint(x: 0.27454*width, y: 0.98773*height), control2: CGPoint(x: 0.259*width, y: 0.97981*height))
-        path.addLine(to: CGPoint(x: 0.03757*width, y: 0.70303*height))
-        path.addCurve(to: CGPoint(x: 0.03757*width, y: 0.59696*height), control1: CGPoint(x: 0.01414*width, y: 0.67374*height), control2: CGPoint(x: 0.01414*width, y: 0.62625*height))
-        path.addCurve(to: CGPoint(x: 0.12243*width, y: 0.59696*height), control1: CGPoint(x: 0.061*width, y: 0.56768*height), control2: CGPoint(x: 0.09899*width, y: 0.56768*height))
-        path.addLine(to: CGPoint(x: 0.289*width, y: 0.80518*height))
-        path.addLine(to: CGPoint(x: 0.8766*width, y: 0.03571*height))
-        path.addCurve(to: CGPoint(x: 0.96143*width, y: 0.03325*height), control1: CGPoint(x: 0.89948*width, y: 0.00575*height), control2: CGPoint(x: 0.93746*width, y: 0.00464*height))
-        path.closeSubpath()
-        return path
-    }
+#Preview {
+    WelcomeScreen()
 }
