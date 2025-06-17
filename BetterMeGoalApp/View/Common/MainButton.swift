@@ -7,17 +7,20 @@
 
 import SwiftUI
 
-struct PrimaryButton: View {
+struct MainButton: View {
     
     var style: Style = .primary
     var height: CGFloat = 44
     var title: String
+    var action: () -> () = {}
     
     var body: some View {
         
         switch style {
             case .primary:
-                Button {} label: {
+                Button {
+                    action()
+                } label: {
                     Text(title)
                         .avertaFont(size: 16)
                         .fontWeight(.semibold)
@@ -28,7 +31,9 @@ struct PrimaryButton: View {
                     PrimaryButtonStyle()
                 )
             case .secondary:
-                Button {} label: {
+                Button {
+                    action()
+                } label: {
                     Text(title)
                         .avertaFont(size: 16)
                         .fontWeight(.semibold)
@@ -91,9 +96,9 @@ struct SecondaryButtonStyle: ButtonStyle {
 
 #Preview {
     VStack(spacing: 12) {
-        PrimaryButton(height: 44, title: "Create an account")
+        MainButton(height: 44, title: "Create an account")
         
-        PrimaryButton(style: .secondary, title: "Login")
+        MainButton(style: .secondary, title: "Login")
     }
     .padding(.horizontal, 32)
 }

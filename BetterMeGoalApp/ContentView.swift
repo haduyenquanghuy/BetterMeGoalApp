@@ -10,9 +10,9 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         VStack(spacing: 12) {
-            PrimaryButton(height: 44, title: "Create an account")
+            MainButton(height: 44, title: "Create an account")
             
-            PrimaryButton(style: .secondary, title: "Login")
+            MainButton(style: .secondary, title: "Login")
             
     //        SecondaryButtonStyle(height: 44)
         }

@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct BetterMeGoalAppApp: App {
+    
     var body: some Scene {
         WindowGroup {
             WelcomeScreen()
+                .environmentObject(Router())
+                .environmentObject(AuthStore())
         }
     }
 }
