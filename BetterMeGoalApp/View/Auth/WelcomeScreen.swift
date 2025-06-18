@@ -34,14 +34,15 @@ struct WelcomeScreen: View {
                         .bold()
                     
                     Text("Let’s make your dream become true")
-                        .avertaFont(size: 16)
-                        .fontWeight(.regular)
+                        .avertaFont(size: 18)
+                        .foregroundStyle(.ink80)
+        
                 }
                 .padding(.top, 12)
                 
                 Spacer()
                 
-                HStack(alignment: .top, spacing: 16) {
+                HStack(alignment: .top, spacing: 12) {
                     AnimationCheckBox(isSelected: $isConfirmPrivacy)
                         .padding(.top, 1)
                     
@@ -58,7 +59,7 @@ struct WelcomeScreen: View {
                             }
                         }
                 }
-                .padding(.horizontal, 32)
+                .padding(.horizontal, 24)
                 .padding(.bottom, 40)
                 
                 
@@ -71,7 +72,7 @@ struct WelcomeScreen: View {
                         router.authRoutes.append(.login)
                     }
                 }
-                .padding(.horizontal, 32)
+                .padding(.horizontal, 24)
                 .padding(.bottom, 8)
                 
             }
@@ -85,13 +86,12 @@ struct WelcomeScreen: View {
                 }
             }
         }
-        
     }
 }
 
 struct TermsTextView: View {
     
-    let font = BMFont.averta.font(with: 16)
+    let font = BMFont.averta.font(with: 14)
     
     var body: some View {
         Text(makeAttributedString())

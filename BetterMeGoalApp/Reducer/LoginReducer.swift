@@ -22,6 +22,7 @@ final class AuthStore: ObservableObject {
     
     enum Action {
         case changeMode(Mode)
+        case toggleMode
     }
     
     @Published private(set) var state = State()
@@ -35,6 +36,9 @@ final class AuthStore: ObservableObject {
         switch action {
             case .changeMode(let mode):
                 state.mode = mode
+            case .toggleMode:
+                let currentMode = state.mode
+                state.mode = currentMode == .login ? .register : .login
         }
     }
 }

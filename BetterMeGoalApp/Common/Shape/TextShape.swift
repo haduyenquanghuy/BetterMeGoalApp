@@ -33,7 +33,7 @@ struct AnimationCheckBox: View {
             
             RoundedRectangle(cornerRadius: 4)
                 .fill(Color(.bluePrimary))
-                .frame(width: 18, height: 18)
+                .frame(width: 20, height: 20)
                 .opacity(isSelected ? 1 : 0)
                 .animation(.easeInOut(duration: 0.2), value: isSelected)
             

@@ -13,6 +13,7 @@ struct MainTextField: View {
     var placeholderText: String
     var image: Image?
     var isPassword: Bool = false
+    var showConfirmPassword = true
     
     @State private var isSecured: Bool = true
     @State var text: String = ""
