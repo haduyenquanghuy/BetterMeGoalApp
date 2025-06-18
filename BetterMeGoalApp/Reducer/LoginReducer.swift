@@ -12,7 +12,7 @@ final class AuthStore: ObservableObject {
     
     struct State {
         var mode: Mode = .login
-        var loginForm = LoginForm()
+        var loginForm = AuthInputFormModel()
     }
     
     enum Mode {
@@ -23,9 +23,10 @@ final class AuthStore: ObservableObject {
     enum Action {
         case changeMode(Mode)
         case toggleMode
+        case setLoginForm(AuthInputFormModel)
     }
     
-    @Published private(set) var state = State()
+    @Published var state = State()
     private var cancellables = Set<AnyCancellable>()
     
     init() {
@@ -39,6 +40,8 @@ final class AuthStore: ObservableObject {
             case .toggleMode:
                 let currentMode = state.mode
                 state.mode = currentMode == .login ? .register : .login
+            case .setLoginForm(let value):
+                state.loginForm = value
         }
     }
 }

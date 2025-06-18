@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		36012D062E02B4B300367992 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 36012D052E02B4B300367992 /* FirebaseAnalytics */; };
+		36012D092E02B61800367992 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 36012D082E02B61800367992 /* FirebaseAuth */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,16 +42,25 @@
 			buildActionMask = 2147483647;
 			files = (
 				36012D062E02B4B300367992 /* FirebaseAnalytics in Frameworks */,
+				36012D092E02B61800367992 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		36012D072E02B61800367992 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		3620D6372DFBD47500FEDB64 = {
 			isa = PBXGroup;
 			children = (
 				3620D6422DFBD47500FEDB64 /* BetterMeGoalApp */,
+				36012D072E02B61800367992 /* Frameworks */,
 				3620D6412DFBD47500FEDB64 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -84,6 +94,7 @@
 			name = BetterMeGoalApp;
 			packageProductDependencies = (
 				36012D052E02B4B300367992 /* FirebaseAnalytics */,
+				36012D082E02B61800367992 /* FirebaseAuth */,
 			);
 			productName = BetterMeGoalApp;
 			productReference = 3620D6402DFBD47500FEDB64 /* BetterMeGoalApp.app */;
@@ -367,6 +378,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 36012D042E02B4B300367992 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAnalytics;
+		};
+		36012D082E02B61800367992 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 36012D042E02B4B300367992 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

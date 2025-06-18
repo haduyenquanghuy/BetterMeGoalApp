@@ -16,7 +16,8 @@ struct MainTextField: View {
     var showForgetPassword = true
     
     @State private var isSecured: Bool = true
-    @State var text: String = ""
+    @Binding var text: String
+    @Binding var error: Error?
     
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
@@ -76,9 +77,9 @@ struct MainTextField: View {
 
 #Preview {
     VStack(spacing: 16) {
-        MainTextField(title: "Email", placeholderText: "example@gmail.com", image: Image(.icUser))
+        MainTextField(title: "Email", placeholderText: "example@gmail.com", image: Image(.icUser), text: .constant(""), error: .constant(AuthInputValidateError.emptyEmail))
         
-        MainTextField(title: "Password", placeholderText: "Password", image: Image(.icLock), isPassword: true)
+        MainTextField(title: "Password", placeholderText: "Password", image: Image(.icLock), isPassword: true, text: .constant(""), error: .constant(AuthInputValidateError.emptyEmail))
     }
         .padding(16)
 }

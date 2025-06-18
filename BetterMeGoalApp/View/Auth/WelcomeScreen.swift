@@ -77,7 +77,7 @@ struct WelcomeScreen: View {
                 }
                 .padding(.horizontal, 24)
                 .padding(.bottom, 8)
-                
+                .disabled(!isConfirmPrivacy)
             }
             .ignoresSafeArea(edges: .top)
             .navigationDestination(for: AuthRoute.self) { route in
