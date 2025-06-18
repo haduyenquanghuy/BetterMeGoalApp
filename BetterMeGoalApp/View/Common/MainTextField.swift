@@ -13,33 +13,27 @@ struct MainTextField: View {
     var placeholderText: String
     var image: Image?
     var isPassword: Bool = false
-    var showConfirmPassword = true
+    var showForgetPassword = true
     
     @State private var isSecured: Bool = true
     @State var text: String = ""
     
-    var textField: some View {
-        TextField("", text: $text, prompt: Text(placeholderText).latoFont(size: 14))
-            .textFieldStyle(.plain)
-            .font(BMFont.averta.font(with: 14))
-    }
-    
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 4) {
             HStack {
                 Text(title)
                     .avertaFont(size: 14)
                     .fontWeight(.regular)
                     .foregroundStyle(.ink80)
                 
-                if isPassword {
-                    
+                if isPassword && showForgetPassword {
                     Spacer()
                     
                     Text("Forgot password?")
                         .latoFont(size: 13)
                         .fontWeight(.medium)
                         .foregroundStyle(.blue)
+                        .transition(.scale)
                 }
             }
             
@@ -48,29 +42,25 @@ struct MainTextField: View {
                     .resizable()
                     .frame(width: 20, height: 20)
                 
-                if isPassword {
-                    
-                    HStack {
-                        if isSecured {
-                            SecureField("", text: $text, prompt: Text(placeholderText).latoFont(size: 14))
-                                .textFieldStyle(.plain)
-                                .font(BMFont.averta.font(with: 14))
-                        } else {
-                            textField
-                        }
-                        
-                        Button {
-                            isSecured.toggle()
-                        } label: {
-                            Image(systemName: isSecured ? "eye.slash" : "eye")
-                                .frame(width: 16, height: 16)
-                                .accentColor(.gray)
-                                .animation(.linear(duration: 0.2), value: isSecured)
-                        }
-                    }
+                if isPassword && isSecured {
+                    SecureField("", text: $text, prompt: Text(placeholderText).latoFont(size: 14))
+                        .textFieldStyle(.plain)
+                        .font(BMFont.averta.font(with: 14))
                 } else {
-                    
-                    textField
+                    TextField("", text: $text, prompt: Text(placeholderText).latoFont(size: 14))
+                        .textFieldStyle(.plain)
+                        .font(BMFont.averta.font(with: 14))
+                }
+                
+                if isPassword {
+                    Button {
+                        isSecured.toggle()
+                    } label: {
+                        Image(systemName: isSecured ? "eye.slash" : "eye")
+                            .frame(width: 16, height: 16)
+                            .accentColor(.gray)
+                            .animation(.linear(duration: 0.2), value: isSecured)
+                    }
                 }
             }
             .frame(height: 42)

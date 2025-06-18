@@ -11,6 +11,7 @@ struct WelcomeScreen: View {
     
     @State private var isConfirmPrivacy = false
     @EnvironmentObject private var router: Router
+    @EnvironmentObject private var authStore: AuthStore
     
     var body: some View {
         
@@ -65,10 +66,12 @@ struct WelcomeScreen: View {
                 
                 VStack(spacing: 12) {
                     MainButton(height: 44, title: "Create an account") {
+                        authStore.send(.changeMode(.register))
                         router.authRoutes.append(.login)
                     }
                     
                     MainButton(style: .secondary, title: "Login") {
+                        authStore.send(.changeMode(.login))
                         router.authRoutes.append(.login)
                     }
                 }

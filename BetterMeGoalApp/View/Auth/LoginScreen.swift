@@ -39,10 +39,10 @@ struct LoginScreen: View {
             VStack(spacing: 16) {
                 MainTextField(title: "Email", placeholderText: "example@gmail.com", image: Image(.icUser))
                 
-                MainTextField(title: "Password", placeholderText: "Password", image: Image(.icLock), isPassword: true, showConfirmPassword: isLogin)
+                MainTextField(title: "Password", placeholderText: "Password", image: Image(.icLock), isPassword: true, showForgetPassword: isLogin)
                 
                 if isLogin {
-                    HStack(spacing: 16) {
+                    HStack(spacing: 12) {
                         AnimationCheckBox(isSelected: $rememberMe)
 
                         Text("Remember me")
@@ -51,11 +51,11 @@ struct LoginScreen: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .transition(.scale)
                 } else {
-                    MainTextField(title: "Confirm Password", placeholderText: "Confirm Password", image: Image(.icLock), isPassword: true, showConfirmPassword: false)
+                    MainTextField(title: "Confirm Password", placeholderText: "Confirm Password", image: Image(.icLock), isPassword: true, showForgetPassword: false)
                         .transition(.scale)
                 }
                 
-                MainButton(height: 44, title: "Login") {
+                MainButton(height: 44, title: isLogin ? "Login" : "Sign up") {
                     
                 }
             }
@@ -88,16 +88,28 @@ struct LoginScreen: View {
             }
             .padding(.bottom, 24)
             
-            Text("Don’t have account? Sign Up")
-                .avertaFont(size: 14)
-                .onTapGesture {
+            HStack(spacing: 4) {
+                Text(isLogin ? "Don’t have account?" : "Already have account?")
+                    .avertaFont(size: 14)
+                    .foregroundStyle(.ink80)
+                
+                Button {
                     withAnimation(.linear(duration: 0.24)) {
                         store.send(.toggleMode)
                     }
+                } label: {
+                    Text(isLogin ? "Sign up" : "Login")
+                        .avertaFont(size: 14)
+                        .foregroundStyle(.bluePrimary)
+                        .fontWeight(.semibold)
                 }
+            }
         }
         .toolbar(.hidden)
         .makeGird()
+        .onChange(of: rememberMe) {
+            DataStore.updateRemberMe(with: $0)
+        }
     }
     
     func onhandle(ssoType: SSOButton) {

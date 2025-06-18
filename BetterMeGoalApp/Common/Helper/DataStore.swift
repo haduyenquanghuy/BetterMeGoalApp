@@ -19,7 +19,7 @@ extension DataStore {
     @WrapperCodableUserDefaults(wrappedValue: false, key: "rememberMe")
     private(set) static var rememberMe: Bool
     
-    func updateRemberMe(with value: Bool) {
+    static func updateRemberMe(with value: Bool) {
         DataStore.rememberMe = value
     }
 }
