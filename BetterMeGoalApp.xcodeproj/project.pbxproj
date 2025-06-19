@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		36012D062E02B4B300367992 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 36012D052E02B4B300367992 /* FirebaseAnalytics */; };
 		36012D092E02B61800367992 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 36012D082E02B61800367992 /* FirebaseAuth */; };
+		36F9BE252E03E35400B98AC0 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 36F9BE242E03E35400B98AC0 /* Swinject */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,7 @@
 			files = (
 				36012D062E02B4B300367992 /* FirebaseAnalytics in Frameworks */,
 				36012D092E02B61800367992 /* FirebaseAuth in Frameworks */,
+				36F9BE252E03E35400B98AC0 /* Swinject in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,6 +97,7 @@
 			packageProductDependencies = (
 				36012D052E02B4B300367992 /* FirebaseAnalytics */,
 				36012D082E02B61800367992 /* FirebaseAuth */,
+				36F9BE242E03E35400B98AC0 /* Swinject */,
 			);
 			productName = BetterMeGoalApp;
 			productReference = 3620D6402DFBD47500FEDB64 /* BetterMeGoalApp.app */;
@@ -126,6 +129,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				36012D042E02B4B300367992 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				36F9BE232E03E35400B98AC0 /* XCRemoteSwiftPackageReference "Swinject" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3620D6412DFBD47500FEDB64 /* Products */;
@@ -371,6 +375,14 @@
 				version = 11.14.0;
 			};
 		};
+		36F9BE232E03E35400B98AC0 /* XCRemoteSwiftPackageReference "Swinject" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Swinject/Swinject";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.9.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -383,6 +395,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 36012D042E02B4B300367992 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
+		};
+		36F9BE242E03E35400B98AC0 /* Swinject */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 36F9BE232E03E35400B98AC0 /* XCRemoteSwiftPackageReference "Swinject" */;
+			productName = Swinject;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

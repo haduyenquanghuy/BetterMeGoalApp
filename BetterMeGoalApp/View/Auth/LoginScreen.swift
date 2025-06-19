@@ -67,7 +67,7 @@ struct LoginScreen: View {
                 }
                 
                 MainButton(height: 44, title: isLogin ? "Login" : "Sign up") {
-                    store.send(isLogin ? .login : .register)
+                    store.send(.validateForm(isLogin))
                 }
             }
             .padding(.bottom, 20)
@@ -119,7 +119,10 @@ struct LoginScreen: View {
         .toolbar(.hidden)
         .makeGird()
         .onChange(of: rememberMe) {
-            DataStore.updateRemberMe(with: $0)
+            DataStore.updateRememberMe(with: $0)
+        }
+        .onAppear {
+            store.send(.onAppear)
         }
     }
     
@@ -163,5 +166,5 @@ enum SSOButton: CaseIterable {
 
 #Preview {
     LoginScreen()
-        .environmentObject(AuthStore())
+        .environmentObject(AuthStore(service: AuthService()))
 }

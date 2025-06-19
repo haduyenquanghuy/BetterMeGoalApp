@@ -12,12 +12,16 @@ import Firebase
 struct BetterMeGoalAppApp: App {
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    private var diContainer = DIContainer()
     
     var body: some Scene {
         WindowGroup {
+            
+            let authStore = diContainer.resolve(AuthStore.self)!
+            
             WelcomeScreen()
                 .environmentObject(Router())
-                .environmentObject(AuthStore())
+                .environmentObject(authStore)
         }
     }
 }
