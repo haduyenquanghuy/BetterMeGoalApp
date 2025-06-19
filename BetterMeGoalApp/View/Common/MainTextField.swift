@@ -20,7 +20,7 @@ struct MainTextField: View {
     @Binding var error: Error?
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: 8) {
             HStack {
                 Text(title)
                     .avertaFont(size: 14)
@@ -47,10 +47,12 @@ struct MainTextField: View {
                     SecureField("", text: $text, prompt: Text(placeholderText).latoFont(size: 14))
                         .textFieldStyle(.plain)
                         .font(BMFont.averta.font(with: 14))
+                        .autocorrectionDisabled(true)
                 } else {
                     TextField("", text: $text, prompt: Text(placeholderText).latoFont(size: 14))
                         .textFieldStyle(.plain)
                         .font(BMFont.averta.font(with: 14))
+                        .autocorrectionDisabled(true)
                 }
                 
                 if isPassword {
@@ -76,7 +78,7 @@ struct MainTextField: View {
                 Text(error?.localizedDescription ?? "")
                     .avertaFont(size: 12)
                     .foregroundStyle(.red)
-
+                    .transition(.scale)
             }
         }
     }
@@ -84,9 +86,9 @@ struct MainTextField: View {
 
 #Preview {
     VStack(spacing: 16) {
-        MainTextField(title: "Email", placeholderText: "example@gmail.com", image: Image(.icUser), text: .constant(""), error: .constant(AuthInputValidateError.emptyEmail))
+        MainTextField(title: "Email", placeholderText: "example@gmail.com", image: Image(.icUser), text: .constant(""), error: .constant(MainError.emptyEmail))
         
-        MainTextField(title: "Password", placeholderText: "Password", image: Image(.icLock), isPassword: true, text: .constant(""), error: .constant(AuthInputValidateError.emptyEmail))
+        MainTextField(title: "Password", placeholderText: "Password", image: Image(.icLock), isPassword: true, text: .constant(""), error: .constant(MainError.emptyEmail))
     }
         .padding(16)
 }

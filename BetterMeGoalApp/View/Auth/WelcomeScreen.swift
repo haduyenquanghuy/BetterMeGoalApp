@@ -65,13 +65,13 @@ struct WelcomeScreen: View {
                 
                 
                 VStack(spacing: 12) {
-                    MainButton(height: 44, title: "Create an account") {
-                        authStore.send(.changeMode(.register))
+                    MainButton(height: 44, title: "Login") {
+                        authStore.send(.changeMode(.login))
                         router.authRoutes.append(.login)
                     }
                     
-                    MainButton(style: .secondary, title: "Login") {
-                        authStore.send(.changeMode(.login))
+                    MainButton(style: .secondary, title: "Create an account") {
+                        authStore.send(.changeMode(.register))
                         router.authRoutes.append(.login)
                     }
                 }

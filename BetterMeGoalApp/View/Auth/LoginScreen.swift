@@ -11,7 +11,7 @@ struct LoginScreen: View {
     
     @EnvironmentObject private var store: AuthStore
     @State private var rememberMe = DataStore.rememberMe
-    @State private var loginForm = AuthInputFormModel()
+    @State private var loginForm = UserCredential()
     
     var isLogin: Bool {
         store.state.mode == .login
@@ -38,9 +38,19 @@ struct LoginScreen: View {
             
             // Login Form
             VStack(spacing: 16) {
-                MainTextField(title: "Email", placeholderText: "example@gmail.com", image: Image(.icUser), text: $store.state.loginForm.email, error: $store.state.loginForm.emailError)
+                MainTextField(title: "Email",
+                              placeholderText: "example@gmail.com",
+                              image: Image(.icUser),
+                              text: $store.state.loginForm.email,
+                              error: $store.state.loginForm.emailError)
                 
-                MainTextField(title: "Password", placeholderText: "Password", image: Image(.icLock), isPassword: true, showForgetPassword: isLogin, text: $store.state.loginForm.password, error:  $store.state.loginForm.passwordError)
+                MainTextField(title: "Password",
+                              placeholderText: "Password",
+                              image: Image(.icLock),
+                              isPassword: true,
+                              showForgetPassword: isLogin,
+                              text: $store.state.loginForm.password,
+                              error:  $store.state.loginForm.passwordError)
                 
                 if isLogin {
                     HStack(spacing: 12) {
@@ -57,7 +67,7 @@ struct LoginScreen: View {
                 }
                 
                 MainButton(height: 44, title: isLogin ? "Login" : "Sign up") {
-                    
+                    store.send(isLogin ? .login : .register)
                 }
             }
             .padding(.bottom, 20)

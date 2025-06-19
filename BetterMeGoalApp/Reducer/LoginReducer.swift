@@ -7,12 +7,13 @@
 
 import Foundation
 import Combine
+import SwiftUI
 
 final class AuthStore: ObservableObject {
     
     struct State {
         var mode: Mode = .login
-        var loginForm = AuthInputFormModel()
+        var loginForm = UserCredential()
     }
     
     enum Mode {
@@ -23,7 +24,9 @@ final class AuthStore: ObservableObject {
     enum Action {
         case changeMode(Mode)
         case toggleMode
-        case setLoginForm(AuthInputFormModel)
+        case setLoginForm(UserCredential)
+        case login
+        case register
     }
     
     @Published var state = State()
@@ -42,6 +45,30 @@ final class AuthStore: ObservableObject {
                 state.mode = currentMode == .login ? .register : .login
             case .setLoginForm(let value):
                 state.loginForm = value
+            case .login:
+                
+                var isValid = false
+                
+                withAnimation(.linear(duration: 0.24)) {
+                    isValid = state.loginForm.validate(isLogin: true)
+                }
+                
+                if isValid {
+                    print("login")
+                }
+
+                
+            case .register:
+                
+                var isValid = false
+                
+                withAnimation(.linear(duration: 0.24)) {
+                    isValid = state.loginForm.validate(isLogin: false)
+                }
+                
+                if isValid {
+                    print("register")
+                }
         }
     }
 }
