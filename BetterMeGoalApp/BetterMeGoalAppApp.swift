@@ -19,7 +19,7 @@ struct BetterMeGoalAppApp: App {
             
             let authStore = diContainer.resolve(AuthStore.self)!
             
-            WelcomeScreen()
+            RootScreen()
                 .environmentObject(Router())
                 .environmentObject(authStore)
         }

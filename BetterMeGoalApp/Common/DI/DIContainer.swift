@@ -8,6 +8,7 @@
 import Foundation
 import Swinject
 
+@MainActor
 class DIContainer {
     var container = Container()
 
