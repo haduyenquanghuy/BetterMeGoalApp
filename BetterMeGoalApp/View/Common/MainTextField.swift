@@ -69,7 +69,14 @@ struct MainTextField: View {
             .cornerRadius(8)
             .overlay {
                 RoundedRectangle(cornerRadius: 8)
-                    .stroke(Color.grayBorder, lineWidth: 1)
+                    .stroke(error != nil ? Color.red : Color.grayBorder, lineWidth: 1)
+            }
+            
+            if error != nil {
+                Text(error?.localizedDescription ?? "")
+                    .avertaFont(size: 12)
+                    .foregroundStyle(.red)
+
             }
         }
     }
