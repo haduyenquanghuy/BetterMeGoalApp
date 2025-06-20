@@ -17,21 +17,13 @@ struct RootScreen: View {
     var body: some View {
         Group {
             if authStore.state.isSignedIn {
-                VStack {
-                    Text("Signed in")
-                    
-                    Button {
-                        authStore.send(.logout)
-                    } label: {
-                        Text("LOGOUT")
-                    }
-                }
-                .transition(
-                    .asymmetric(
-                        insertion: .move(edge: .trailing).combined(with: .opacity),
-                        removal: .opacity
+                MainTabView()
+                    .transition(
+                        .asymmetric(
+                            insertion: .move(edge: .trailing).combined(with: .opacity),
+                            removal: .opacity
+                        )
                     )
-                )
                 
             } else {
                 NavigationStack(path: $router.authRoutes) {
@@ -54,4 +46,6 @@ struct RootScreen: View {
 
 #Preview {
     RootScreen()
+        .environmentObject(Router())
+        .environmentObject(AuthStore(service: AuthService()))
 }
