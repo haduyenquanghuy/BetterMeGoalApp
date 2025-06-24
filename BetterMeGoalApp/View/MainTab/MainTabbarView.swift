@@ -10,6 +10,7 @@ import SwiftUI
 struct MainTabbarView: View {
     
     @Binding var selectedTab: TabSection
+    @Binding var showCreate: Bool
     
     var body: some View {
         HStack(alignment: .top, spacing: 0) {
@@ -38,7 +39,7 @@ struct MainTabbarView: View {
                         Color.white
                             
                         Button {
-                            
+                            showCreate = true
                         } label: {
                             Circle()
                                 .fill(Color.white)
@@ -66,6 +67,6 @@ struct MainTabbarView: View {
 }
 
 #Preview {
-    MainTabbarView(selectedTab: .constant(.add))
+    MainTabbarView(selectedTab: .constant(.add), showCreate: .constant(false))
 }
 

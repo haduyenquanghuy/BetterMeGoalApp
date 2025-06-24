@@ -10,6 +10,7 @@ import SwiftUI
 struct MainTabView: View {
     
     @State private var selectedTab: TabSection = .goal
+    @State private var showCreate: Bool = false
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -28,9 +29,12 @@ struct MainTabView: View {
             }
             .toolbar(.hidden, for: .tabBar)
             
-            MainTabbarView(selectedTab: $selectedTab)
+            MainTabbarView(selectedTab: $selectedTab, showCreate: $showCreate)
         }
-        .ignoresSafeArea(.keyboard) // Tránh tabbar bị đẩy lên khi bàn phím mở
+        .ignoresSafeArea(.keyboard)
+        .fullScreenCover(isPresented: $showCreate) {
+            CreateGoalScreen()
+        }
         
     }
 }

@@ -20,8 +20,18 @@ enum AuthRoute: Hashable {
     case login
 }
 
+enum CreateRoute: Hashable {
+
+    case title
+    case category
+    case setTarget
+    case deadline
+    case review
+}
+
 class Router: ObservableObject {
     
     @Published var authRoutes: [AuthRoute] = []
+    @Published var createRoutes: [CreateRoute] = []
     
 }
