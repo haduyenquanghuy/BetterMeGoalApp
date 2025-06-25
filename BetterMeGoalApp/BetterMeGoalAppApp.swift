@@ -18,10 +18,12 @@ struct BetterMeGoalAppApp: App {
         WindowGroup {
             
             let authStore = diContainer.resolve(AuthStore.self)!
+            let createStore = diContainer.resolve(CreateStore.self)!
             
             RootScreen()
                 .environmentObject(Router())
                 .environmentObject(authStore)
+                .environmentObject(createStore)
         }
     }
 }

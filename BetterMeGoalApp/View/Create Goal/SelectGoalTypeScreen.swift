@@ -38,8 +38,10 @@ struct SelectGoalTypeScreen: View {
                         .disabled(activeCard?.prev() == nil)
                         .opacity(activeCard?.prev() == nil ? 0.25 : 1)
                     
-                    MainButton(title: "Select Template")
-                        .frame(width: 200)
+                    MainButton(title: "Select Template") {
+                        router.createRoutes.append(.create)
+                    }
+                    .frame(width: 200)
 
                     Image(.icNext)
                         .resizeImageFit(width: 36)
@@ -80,6 +82,12 @@ struct SelectGoalTypeScreen: View {
             .toolbarBackground(.visible, for: .navigationBar)
             .onAppear {
                 activeCard = GoalType.all.first
+            }
+            .navigationDestination(for: CreateRoute.self) { route in
+                switch route {
+                    case .create:
+                        CreateGoalFlowScreen()
+                }
             }
         }
     }

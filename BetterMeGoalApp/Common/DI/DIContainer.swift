@@ -28,6 +28,10 @@ class DIContainer {
             let authService = resolver.resolve(AuthServiceProtocol.self)!
             return AuthStore(service: authService)
         }
+        
+        container.register(CreateStore.self) { _ in
+            return CreateStore()
+        }
     }
 
     // Lấy service hoặc store từ container

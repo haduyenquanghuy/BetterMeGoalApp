@@ -22,11 +22,7 @@ enum AuthRoute: Hashable {
 
 enum CreateRoute: Hashable {
 
-    case title
-    case category
-    case setTarget
-    case deadline
-    case review
+    case create
 }
 
 class Router: ObservableObject {

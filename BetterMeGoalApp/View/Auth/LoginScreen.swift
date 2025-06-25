@@ -119,7 +119,7 @@ struct LoginScreen: View {
         .toolbar(.hidden)
         .makeGird()
         .onChange(of: rememberMe) {
-            DataStore.updateRememberMe(with: $0)
+            DataStore.updateRememberMe(with: rememberMe)
         }
         .onAppear {
             store.send(.onAppear)
