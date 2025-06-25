@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-enum GoalType: String, Codable, Identifiable {
+enum GoalType: String, Codable, Identifiable, Hashable {
     var id: GoalType {
         return self
     }
@@ -29,6 +29,28 @@ enum GoalType: String, Codable, Identifiable {
                 GoalTypeDisplay(name: "Total Days Goal", subTitle: "Measure your progress by the total number of days an action is performed.", image: ImageResource.imgCalendar)
             case .quantity:
                 GoalTypeDisplay(name: "Quantity Goal", subTitle: "Measure your progress by counting the total number of completed items or actions.", image: ImageResource.imgQuantity)
+        }
+    }
+    
+    func next() -> GoalType? {
+        switch self {
+            case .time:
+                return .day
+            case .day:
+                return nil
+            case .quantity:
+                return .time
+        }
+    }
+    
+    func prev() -> GoalType? {
+        switch self {
+            case .time:
+                return .quantity
+            case .day:
+                return .time
+            case .quantity:
+                return nil
         }
     }
     

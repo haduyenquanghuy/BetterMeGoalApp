@@ -33,7 +33,7 @@ struct MainTabView: View {
         }
         .ignoresSafeArea(.keyboard)
         .fullScreenCover(isPresented: $showCreate) {
-            CreateGoalScreen()
+            SelectGoalTypeScreen(isShow: $showCreate)
         }
         
     }
