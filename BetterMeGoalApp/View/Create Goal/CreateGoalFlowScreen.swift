@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CreateGoalFlowScreen: View {
     
+    @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var createStore: CreateStore
     @State private var currentStep: CreateGoalStep = .detail
     
@@ -30,7 +31,7 @@ struct CreateGoalFlowScreen: View {
             ToolbarItem(placement: .topBarLeading) {
                 
                 Button {
-
+                    dismiss()
                 } label: {
                     Image(.icBack)
                         .renderingMode(.template)
@@ -41,6 +42,9 @@ struct CreateGoalFlowScreen: View {
             }
         }
         .customTabbar()
+        .onAppear {
+            createStore.send(.onAppear)
+        }
     }
     
     var pagingScrollView: some View {
@@ -54,9 +58,10 @@ struct CreateGoalFlowScreen: View {
                                 MainButton(title: "Next") {
                                     if let next = currentStep.next {
                                         currentStep = next
+                                        createStore.send(.updateStep(next, .doing))
                                     }
                                     
-                                    createStore.send(.updateStep(item, true))
+                                    createStore.send(.updateStep(item, .done))
                                 }
                                 .padding(.bottom, 8)
                                 .padding(.horizontal, 16)
@@ -96,8 +101,8 @@ struct CreateGoalFlowScreen: View {
                                 .foregroundStyle(Color.ink100)
                         }
                         .frame(width: 96, alignment: .leading)
-                        .opacity(item.isComplete || item.step == currentStep ? 1 : 0.24)
-                        .disabled(!(item.isComplete || item.step == currentStep ))
+                        .opacity(item.status != .toDo ? 1 : 0.24)
+                        .disabled(item.status == .toDo)
                         .padding(.vertical, 12)
                         .id(item.step)
                     }
@@ -111,8 +116,6 @@ struct CreateGoalFlowScreen: View {
             }
         }
     }
-    
-    
 }
 
 enum CreateGoalStep: Int, CaseIterable, Identifiable {

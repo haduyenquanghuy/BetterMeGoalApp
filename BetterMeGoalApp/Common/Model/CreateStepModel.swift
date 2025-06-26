@@ -10,7 +10,13 @@ import Foundation
 struct CreateStepModel: Equatable {
     
     var step: CreateGoalStep
-    var isComplete: Bool
+    var status: Status
+    
+    enum Status {
+        case toDo
+        case doing
+        case done
+    }
 }
 
 

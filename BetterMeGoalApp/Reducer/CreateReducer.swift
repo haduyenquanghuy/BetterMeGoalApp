@@ -12,13 +12,12 @@ import Combine
 final class CreateStore: ObservableObject {
     
     struct State {
-        var steps: [CreateStepModel] = CreateGoalStep.allCases.map { CreateStepModel(step: $0, isComplete: false) }
-
+        var steps: [CreateStepModel] = CreateGoalStep.allCases.map { CreateStepModel(step: $0, status: .toDo) }
     }
     
     enum Action {
         case onAppear
-        case updateStep(CreateGoalStep, Bool)
+        case updateStep(CreateGoalStep, CreateStepModel.Status)
     }
     
     @Published var state = State()
@@ -27,10 +26,11 @@ final class CreateStore: ObservableObject {
     func send(_ action: Action) {
         switch action {
             case .onAppear:
-                break
+                state = State()
+                send(.updateStep(.detail, .doing))
                 
-            case .updateStep(let step, let isComplete):
-                let stepModel = CreateStepModel(step: step, isComplete: isComplete)
+            case .updateStep(let step, let status):
+                let stepModel = CreateStepModel(step: step, status: status)
                 
                 if let index = state.steps.firstIndex(where: {
                     $0.step == stepModel.step
