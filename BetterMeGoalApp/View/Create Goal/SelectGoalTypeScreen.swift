@@ -10,7 +10,7 @@ import SwiftUI
 struct SelectGoalTypeScreen: View {
     
     @EnvironmentObject var router: Router
-    @State var activeCard: GoalType?
+    @State var activeCard: GoalType? = GoalType.all.first
     @Binding var isShow: Bool
     
     var body: some View {
@@ -56,7 +56,6 @@ struct SelectGoalTypeScreen: View {
                 .frame(maxWidth: .infinity)
             }
             .background(Color.background)
-            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text("Choose Goal Template")
@@ -78,11 +77,7 @@ struct SelectGoalTypeScreen: View {
                     
                 }
             }
-            .toolbarBackground(.bluePrimary, for: .navigationBar)
-            .toolbarBackground(.visible, for: .navigationBar)
-            .onAppear {
-                activeCard = GoalType.all.first
-            }
+            .customTabbar()
             .navigationDestination(for: CreateRoute.self) { route in
                 switch route {
                     case .create:

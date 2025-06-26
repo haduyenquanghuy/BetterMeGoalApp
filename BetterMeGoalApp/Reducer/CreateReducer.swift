@@ -13,10 +13,12 @@ final class CreateStore: ObservableObject {
     
     struct State {
         var steps: [CreateStepModel] = CreateGoalStep.allCases.map { CreateStepModel(step: $0, isComplete: false) }
+
     }
     
     enum Action {
         case onAppear
+        case updateStep(CreateGoalStep, Bool)
     }
     
     @Published var state = State()
@@ -26,6 +28,15 @@ final class CreateStore: ObservableObject {
         switch action {
             case .onAppear:
                 break
+                
+            case .updateStep(let step, let isComplete):
+                let stepModel = CreateStepModel(step: step, isComplete: isComplete)
+                
+                if let index = state.steps.firstIndex(where: {
+                    $0.step == stepModel.step
+                }) {
+                    state.steps[index] = stepModel
+                }
         }
     }
 }

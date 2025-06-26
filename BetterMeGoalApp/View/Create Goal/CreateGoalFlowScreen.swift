@@ -12,14 +12,55 @@ struct CreateGoalFlowScreen: View {
     @EnvironmentObject private var createStore: CreateStore
     @State private var currentStep: CreateGoalStep = .detail
     
+    var body: some View {
+        VStack(spacing: 0) {
+            progress
+            
+            pagingScrollView
+        }
+        .background(Color.background)
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                Text("Create New Goal")
+                    .avertaFont(size: 18)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(.white)
+            }
+            
+            ToolbarItem(placement: .topBarLeading) {
+                
+                Button {
+
+                } label: {
+                    Image(.icBack)
+                        .renderingMode(.template)
+                        .resizeImageFit(width: 28)
+                        .foregroundStyle(Color.white)
+                }
+                
+            }
+        }
+        .customTabbar()
+    }
+    
     var pagingScrollView: some View {
         ScrollViewReader { proxy in
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 0) {
                     ForEach(CreateGoalStep.allCases, id: \.self) { item in
-                        Color(hue: Double(item.rawValue) / 4.0, saturation: 0.8, brightness: 0.9)
-                            .overlay(Text("Page \(item.indexTitle)").font(.largeTitle).foregroundColor(.white))
+                        CreateGoalScreen(step: item)
                             .frame(width: UIScreen.screenWidth)
+                            .safeAreaInset(edge: .bottom) {
+                                MainButton(title: "Next") {
+                                    if let next = currentStep.next {
+                                        currentStep = next
+                                    }
+                                    
+                                    createStore.send(.updateStep(item, true))
+                                }
+                                .padding(.bottom, 8)
+                                .padding(.horizontal, 16)
+                            }
                             .id(item)
                     }
                 }
@@ -46,13 +87,17 @@ struct CreateGoalFlowScreen: View {
                                     .avertaFont(size: 14)
                                     .fontWeight(.semibold)
                                     .frame(maxWidth: .infinity, alignment: .leading)
+                                    .foregroundStyle(Color.ink100)
                             }
                             
                             RoundedRectangle(cornerRadius: 3)
                                 .frame(height: 3)
                                 .frame(maxWidth: .infinity)
+                                .foregroundStyle(Color.ink100)
                         }
                         .frame(width: 96, alignment: .leading)
+                        .opacity(item.isComplete || item.step == currentStep ? 1 : 0.24)
+                        .disabled(!(item.isComplete || item.step == currentStep ))
                         .padding(.vertical, 12)
                         .id(item.step)
                     }
@@ -67,13 +112,7 @@ struct CreateGoalFlowScreen: View {
         }
     }
     
-    var body: some View {
-        VStack(spacing: 0) {
-            progress
-            
-            pagingScrollView
-        }
-    }
+    
 }
 
 enum CreateGoalStep: Int, CaseIterable, Identifiable {
@@ -83,6 +122,21 @@ enum CreateGoalStep: Int, CaseIterable, Identifiable {
     case target
     case deadline
     case review
+    
+    var next: CreateGoalStep? {
+        switch self {
+            case .detail:
+                    .category
+            case .category:
+                    .target
+            case .target:
+                    .deadline
+            case .deadline:
+                    .review
+            case .review:
+                nil
+        }
+    }
     
     var id: Int {
         return self.rawValue
@@ -129,6 +183,8 @@ enum CreateGoalStep: Int, CaseIterable, Identifiable {
 
 
 #Preview {
-    CreateGoalFlowScreen()
-        .environmentObject(CreateStore())
+    NavigationStack {
+        CreateGoalFlowScreen()
+            .environmentObject(CreateStore())
+    }
 }

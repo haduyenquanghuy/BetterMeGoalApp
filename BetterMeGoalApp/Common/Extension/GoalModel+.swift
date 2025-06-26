@@ -10,16 +10,22 @@ import Foundation
 extension GoalModel {
     
     var progressPercent: Double {
-        guard totalTarget > 0 else { return 0 }
+        guard let currentProgress = currentProgress, let totalTarget = totalTarget, totalTarget > 0 else { return 0 }
+        
         return min(100, (currentProgress / totalTarget) * 100)
     }
 
-    var totalDays: Int {
-        startDate.totalDays(until: endDate)
+    var totalDays: Int? {
+        guard let startDate = startDate, let endDate = endDate else { return nil }
+        
+        return startDate.totalDays(until: endDate)
     }
 
     var currentDay: Int {
-        Date().currentDay(from: startDate)
+        startDate.map {
+            Date().currentDay(from: $0)
+        } ?? 0
+        
     }
 
     var isStreakFailedToday: Bool {

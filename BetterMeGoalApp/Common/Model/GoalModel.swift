@@ -8,28 +8,29 @@
 import Foundation
 
 struct GoalModel: Identifiable, Codable {
-    let id: UUID
-    var title: String
-    var description: String
-    var coverImage: String
     
-    var goalType: GoalType
-    var category: GoalCategory
+    var id: UUID = UUID()
+    var title: String?
+    var description: String?
+    var coverImage: String?
     
-    var totalTarget: Double
-    var currentProgress: Double
-    var progressUnit: String
+    var goalType: GoalType = .day
+    var category: GoalCategory? = .career
     
-    var startDate: Date
-    var endDate: Date
+    var totalTarget: Double?
+    var currentProgress: Double?
+    var progressUnit: String?
     
-    var streakCount: Int
-    var maxStreak: Int
-    var streakHistory: [Date]
-    var isCompleted: Bool
+    var startDate: Date?
+    var endDate: Date?
     
-    var subTasks: [SubTask]
-    var historyLog: [ProgressLog]
+    var streakCount: Int = 0
+    var maxStreak: Int = 0
+    var streakHistory: [Date] = []
+    var isCompleted = false
+    
+    var subTasks: [SubTask] = []
+    var historyLog: [ProgressLog] = []
 }
 
 struct SubTask: Identifiable, Codable {

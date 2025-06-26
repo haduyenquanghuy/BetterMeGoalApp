@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CreateStepModel {
+struct CreateStepModel: Equatable {
     
     var step: CreateGoalStep
     var isComplete: Bool

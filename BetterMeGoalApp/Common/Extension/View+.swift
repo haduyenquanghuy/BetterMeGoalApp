@@ -13,6 +13,13 @@ extension View {
     func makeGird() -> some View {
         padding(.horizontal, 16)
     }
+    
+    func customTabbar() -> some View {
+        self.navigationBarTitleDisplayMode(.inline)
+            .toolbarBackground(.bluePrimary, for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
+            .navigationBarBackButtonHidden(true)
+    }
 }
 
 extension View {
@@ -21,8 +28,8 @@ extension View {
     }
     
     func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
-            clipShape( RoundedCorner(radius: radius, corners: corners) )
-        }
+        clipShape( RoundedCorner(radius: radius, corners: corners) )
+    }
     
     func viewShouldHide(with value: Bool) -> some View {
         self.blur(radius: value ? 6 : 0)
@@ -31,10 +38,10 @@ extension View {
 }
 
 struct RoundedCorner: Shape {
-
+    
     var radius: CGFloat = .infinity
     var corners: UIRectCorner = .allCorners
-
+    
     func path(in rect: CGRect) -> SwiftUI.Path {
         let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
         return Path(path.cgPath)
