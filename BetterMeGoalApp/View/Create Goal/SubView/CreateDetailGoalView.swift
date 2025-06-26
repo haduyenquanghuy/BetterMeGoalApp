@@ -14,7 +14,6 @@ struct CreateDetailGoalView: View {
     
     var body: some View {
         
-        
         VStack(spacing: 16) {
             MainTextField(title: "Title", placeholderText: "Set goal's name", text: $goal.title.unwrapped, error: $err)
             

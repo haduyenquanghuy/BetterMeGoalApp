@@ -9,13 +9,14 @@ import SwiftUI
 
 struct CreateGoalScreen: View {
     
+    @EnvironmentObject private var createStore: CreateStore
     var step: CreateGoalStep
     
     var body: some View {
         VStack(spacing: 0) {
             CreateGoalHeaderView(step: step)
             
-            CreateDetailGoalView(goal: .constant(GoalModel()))
+            CreateDetailGoalView(goal: $createStore.state.createdGoal)
                 .padding(.top, 20)
             
             Spacer()
@@ -26,4 +27,5 @@ struct CreateGoalScreen: View {
 
 #Preview {
     CreateGoalScreen(step: .detail)
+        .environmentObject(CreateStore())
 }

@@ -24,6 +24,8 @@ enum MainError: Error {
     case emptyTitle
     case titleTooShort
     case titleTooLong
+    
+    case fieldRequired
 }
 
 extension MainError: LocalizedError {
@@ -58,6 +60,9 @@ extension MainError: LocalizedError {
                 "Title must be at least 12 characters"
             case .titleTooLong:
                 "Title must be at most 40 characters"
+                
+            case .fieldRequired:
+                "Field is required"
         }
     }
 }

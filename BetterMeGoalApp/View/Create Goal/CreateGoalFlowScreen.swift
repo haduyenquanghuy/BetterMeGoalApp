@@ -38,7 +38,7 @@ struct CreateGoalFlowScreen: View {
                         .resizeImageFit(width: 28)
                         .foregroundStyle(Color.white)
                 }
-                
+
             }
         }
         .customTabbar()

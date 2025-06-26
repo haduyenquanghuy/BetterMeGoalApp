@@ -36,11 +36,36 @@ class Validator {
         }
         return nil
     }
+    
+    func validate(goal: GoalModel, step: CreateGoalStep) -> MainError? {
+        switch step {
+            case .detail:
+                guard let title = goal.title else {
+                    return MainError.emptyTitle
+                }
+                return validate(title, rule: TitleRule())
+                
+            case .category:
+                if goal.category == nil {
+                    return MainError.fieldRequired
+                }
+            case .target:
+                if goal.totalTarget == nil {
+                    return MainError.fieldRequired
+                }
+            case .deadline:
+                break
+            case .review:
+                break
+        }
+        return nil
+    }
 }
 
 enum RuleSet {
     static let emailRule = EmailRule()
     static let passwordRule = PasswordRule()
     static let repasswordRule = RePasswordRule()
+    static let titleRule = TitleRule()
 }
 

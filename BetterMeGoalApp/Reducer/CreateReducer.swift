@@ -13,11 +13,13 @@ final class CreateStore: ObservableObject {
     
     struct State {
         var steps: [CreateStepModel] = CreateGoalStep.allCases.map { CreateStepModel(step: $0, status: .toDo) }
+        var createdGoal: GoalModel = GoalModel()
     }
     
     enum Action {
         case onAppear
         case updateStep(CreateGoalStep, CreateStepModel.Status)
+        case setGoal(GoalModel)
     }
     
     @Published var state = State()
@@ -37,6 +39,9 @@ final class CreateStore: ObservableObject {
                 }) {
                     state.steps[index] = stepModel
                 }
+                
+            case .setGoal(let goal):
+                state.createdGoal = goal
         }
     }
 }
