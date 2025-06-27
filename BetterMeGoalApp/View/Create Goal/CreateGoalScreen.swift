@@ -23,7 +23,6 @@ struct CreateGoalScreen: View {
                         .padding(.top, 24)
                 case .category:
                     GoalCategoryCollectionView(isSelected: $createStore.state.createdGoal.category)
-                        .padding(.top, 24)
                 case .target:
                     EmptyView()
                 case .deadline:

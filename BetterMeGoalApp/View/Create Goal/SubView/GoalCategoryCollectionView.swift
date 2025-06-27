@@ -17,7 +17,7 @@ struct GoalCategoryCollectionView: View {
     ]
     
     var body: some View {
-        ScrollView {
+        ScrollView(.vertical, showsIndicators: false) {
             LazyVGrid(columns: columns, spacing: 12) {
                 ForEach(GoalCategory.allCases, id: \.self) { item in
                     GoalCategoryView(category: item, isSelected: item == isSelected)
@@ -29,6 +29,7 @@ struct GoalCategoryCollectionView: View {
                 }
             }
         }
+        .contentMargins(.top, 24, for: .scrollContent)
     }
 }
 
