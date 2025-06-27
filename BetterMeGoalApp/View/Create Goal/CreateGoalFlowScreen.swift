@@ -51,22 +51,27 @@ struct CreateGoalFlowScreen: View {
         ScrollViewReader { proxy in
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 0) {
-                    ForEach(CreateGoalStep.allCases, id: \.self) { item in
-                        CreateGoalScreen(step: item)
+                    ForEach(CreateGoalStep.allCases, id: \.self) { step in
+                        CreateGoalScreen(step: step)
                             .frame(width: UIScreen.screenWidth)
                             .safeAreaInset(edge: .bottom) {
                                 MainButton(title: "Next") {
-                                    if let next = currentStep.next {
-                                        currentStep = next
-                                        createStore.send(.updateStep(next, .doing))
-                                    }
+                                    createStore.send(.validateGoal(step))
                                     
-                                    createStore.send(.updateStep(item, .done))
+                                    if createStore.getGoal(at: step)?.err == nil {
+                                        
+                                        if let nextStep = currentStep.next {
+                                            currentStep = nextStep
+                                            createStore.send(.updateStep(nextStep, .doing))
+                                        }
+                                        
+                                        createStore.send(.updateStep(step, .done))
+                                    }
                                 }
                                 .padding(.bottom, 8)
                                 .padding(.horizontal, 16)
                             }
-                            .id(item)
+                            .id(step)
                     }
                 }
             }

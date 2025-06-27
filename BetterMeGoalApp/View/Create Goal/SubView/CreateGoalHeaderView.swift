@@ -9,9 +9,13 @@ import SwiftUI
 
 struct CreateGoalHeaderView: View {
     
+    @EnvironmentObject var createStore: CreateStore
     var step: CreateGoalStep
     
     var body: some View {
+        
+        let err = createStore.getGoal(at: step)?.err
+    
         VStack(alignment:.leading, spacing: 4) {
             Text(step.label)
                 .avertaFont(size: 12)
@@ -29,9 +33,21 @@ struct CreateGoalHeaderView: View {
                 .foregroundStyle(.ink60)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+        .inlineToast(alignment: .center, config:  InlineToastConfig(
+            icon: "exclamationmark.circle.fill",
+            title: err?.localizedDescription ?? "Error!",
+            subTitle: "Oops! That didn’t match. Give it another shot.",
+            tint: .red,
+            anchor: .bottom,
+            animationAnchor: .bottom,
+            actionIcon: "xmark"
+        ) {
+            createStore.send(.update(err: nil, step: step))
+        }, isPresented: err != nil)
     }
 }
 
 #Preview {
     CreateGoalHeaderView(step: .detail)
+        .environmentObject(CreateStore())
 }
