@@ -93,6 +93,7 @@ struct InlineToastView: View {
                         .foregroundStyle(Color.ink60)
                 }
             }
+            .lineLimit(1)
             
             Spacer(minLength: 0)
             
@@ -120,6 +121,5 @@ struct InlineToastView: View {
             }
         }
         .contentShape(.rect)
-        .lineLimit(1)
     }
 }

@@ -13,12 +13,26 @@ struct CreateGoalScreen: View {
     var step: CreateGoalStep
     
     var body: some View {
+
         VStack(spacing: 0) {
             CreateGoalHeaderView(step: step)
             
-            CreateDetailGoalView(goal: $createStore.state.createdGoal)
-                .padding(.top, 20)
+            switch step {
+                case .detail:
+                    CreateDetailGoalView(goal: $createStore.state.createdGoal)
+                        .padding(.top, 24)
+                case .category:
+                    GoalCategoryCollectionView(isSelected: $createStore.state.createdGoal.category)
+                        .padding(.top, 24)
+                case .target:
+                    EmptyView()
+                case .deadline:
+                    EmptyView()
+                case .review:
+                    EmptyView()
+            }
             
+
             Spacer()
         }
         .makeGird()

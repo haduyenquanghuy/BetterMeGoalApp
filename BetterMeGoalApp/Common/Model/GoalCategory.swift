@@ -6,37 +6,59 @@
 //
 
 import Foundation
+import SwiftUI
 
 enum GoalCategory: String, Codable, CaseIterable {
+    
+    case selfImproment
     case health
     case finance
     case career
     case education
     case relationship
     case habit
-    case other
+    case travel
+    case community
+    case hobbies
     
-    var icon: String {
-        switch self {
-            case .health: return "❤️"
-            case .finance: return "💰"
-            case .career: return "📈"
-            case .education: return "📚"
-            case .relationship: return "🤝"
-            case .habit: return "🔁"
-            case .other: return "✨"
-        }
-    }
     
     var displayName: String {
         switch self {
-            case .health: return "Sức khỏe"
-            case .finance: return "Tài chính"
-            case .career: return "Sự nghiệp"
-            case .education: return "Giáo dục"
-            case .relationship: return "Mối quan hệ"
-            case .habit: return "Thói quen"
-            case .other: return "Khác"
+            case .health: return "Health & Fitness"
+            case .finance: return "Finance"
+            case .career: return "Career & Businessp"
+            case .education: return "Education"
+            case .relationship: return "Relationships"
+            case .habit: return "Hobbies"
+            case .selfImproment: return "Self-Improvement"
+            case .travel: return "Travel"
+            case .community: return "Community"
+            case .hobbies: return "Hobbies"
+        }
+    }
+    
+    var displayImage: ImageResource {
+        switch self {
+            case .selfImproment:
+                    .imgMountain
+            case .health:
+                    .imgHealthy
+            case .finance:
+                    .imgPig
+            case .career:
+                    .imgComputer
+            case .education:
+                    .imgBook
+            case .relationship:
+                    .imgLetter
+            case .habit:
+                    .imgPlantPot
+            case .travel:
+                    .imgLuggage
+            case .community:
+                    .imgPigeon
+            case .hobbies:
+                    .imgGuitar
         }
     }
 }

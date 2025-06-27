@@ -11,6 +11,7 @@ struct CreateGoalFlowScreen: View {
     
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var createStore: CreateStore
+    @FocusState private var isFocus: Bool
     @State private var currentStep: CreateGoalStep = .detail
     
     var body: some View {
@@ -54,6 +55,7 @@ struct CreateGoalFlowScreen: View {
                     ForEach(CreateGoalStep.allCases, id: \.self) { step in
                         CreateGoalScreen(step: step)
                             .frame(width: UIScreen.screenWidth)
+                            .focused($isFocus)
                             .safeAreaInset(edge: .bottom) {
                                 MainButton(title: "Next") {
                                     createStore.send(.validateGoal(step))
@@ -66,6 +68,7 @@ struct CreateGoalFlowScreen: View {
                                         }
                                         
                                         createStore.send(.updateStep(step, .done))
+                                        isFocus = false
                                     }
                                 }
                                 .padding(.bottom, 8)

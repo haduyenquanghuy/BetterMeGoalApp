@@ -48,9 +48,8 @@ final class CreateStore: ObservableObject {
                 state.createdGoal = goal
                 
             case .validateGoal(let step):
-                if let error = Validator.shared.validate(goal: state.createdGoal, step: step) {
-                    send(.update(err: error, step: step))
-                }
+                let error = Validator.shared.validate(goal: state.createdGoal, step: step)
+                send(.update(err: error, step: step))
                 
             case .update(err: let err, step: let step):
                 withAnimation(.linear(duration: 0.2)) {
