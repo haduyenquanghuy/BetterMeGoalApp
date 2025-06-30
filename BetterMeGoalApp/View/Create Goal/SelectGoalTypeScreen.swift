@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SelectGoalTypeScreen: View {
     
+    @EnvironmentObject var createStore: CreateStore
     @EnvironmentObject var router: Router
     @State var activeCard: GoalType? = GoalType.all.first
     @Binding var isShow: Bool
@@ -40,6 +41,10 @@ struct SelectGoalTypeScreen: View {
                     
                     MainButton(title: "Select Template") {
                         router.createRoutes.append(.create)
+                        
+                        if let type = activeCard {
+                            createStore.send(.setGoal(GoalModel(goalType: type)))
+                        }
                     }
                     .frame(width: 200)
 
@@ -70,8 +75,7 @@ struct SelectGoalTypeScreen: View {
                         isShow = false
                     } label: {
                         Image(.icRemove)
-                            .renderingMode(.template)
-                            .resizeImageFit(width: 24)
+                            .resizeImageFit(width: 24, isOriginal: false)
                             .foregroundStyle(Color.white)
                     }
                     
@@ -130,4 +134,5 @@ struct SelectGoalTypeScreen: View {
 #Preview {
     SelectGoalTypeScreen(isShow: .constant(true))
         .environmentObject(Router())
+        .environmentObject(CreateStore())
 }

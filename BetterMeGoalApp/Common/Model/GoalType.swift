@@ -54,6 +54,17 @@ enum GoalType: String, Codable, Identifiable, Hashable {
         }
     }
     
+    var title: String {
+        switch self {
+            case .time:
+                "times"
+            case .day:
+                "days"
+            case .quantity:
+                "hours"
+        }
+    }
+    
     struct GoalTypeDisplay {
         var name: String
         var subTitle: String

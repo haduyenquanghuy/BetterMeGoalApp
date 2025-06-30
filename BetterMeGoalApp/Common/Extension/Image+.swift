@@ -10,8 +10,11 @@ import SwiftUI
 
 extension Image {
     
-    func resizeImageFit(width: CGFloat) -> some View {
-        self.resizable()
+    func resizeImageFit(width: CGFloat, isOriginal: Bool = true) -> some View {
+
+        
+        self.renderingMode(isOriginal ? .original : .template)
+            .resizable()
             .frame(width: width, height: width)
             .scaledToFit()
     }

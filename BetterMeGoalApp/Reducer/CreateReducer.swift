@@ -47,6 +47,7 @@ final class CreateStore: ObservableObject {
             case .setGoal(let goal):
                 state.createdGoal = goal
                 
+                
             case .validateGoal(let step):
                 let error = Validator.shared.validate(goal: state.createdGoal, step: step)
                 send(.update(err: error, step: step))

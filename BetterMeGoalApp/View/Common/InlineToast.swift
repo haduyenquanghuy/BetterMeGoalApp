@@ -119,6 +119,7 @@ struct InlineToastView: View {
                         .fill(config.tint.opacity(0.15))
                 }
             }
+            .cornerRadius(4)
         }
         .contentShape(.rect)
     }
