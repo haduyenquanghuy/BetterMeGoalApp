@@ -15,6 +15,7 @@ final class CreateStore: ObservableObject {
     struct State {
         var steps: [CreateStepModel] = CreateGoalStep.allCases.map { CreateStepModel(step: $0, status: .toDo) }
         var createdGoal: GoalModel = GoalModel()
+        var selectedType: GoalType?
     }
     
     enum Action {
@@ -23,6 +24,7 @@ final class CreateStore: ObservableObject {
         case setGoal(GoalModel)
         case validateGoal(CreateGoalStep)
         case update(err: Error?, step: CreateGoalStep)
+        case setSelected(type: GoalType)
     }
     
     @Published var state = State()
@@ -32,7 +34,8 @@ final class CreateStore: ObservableObject {
     func send(_ action: Action) {
         switch action {
             case .onAppear:
-                state = State()
+
+                state.createdGoal = GoalModel(goalType: state.selectedType)
                 send(.updateStep(.detail, .doing))
                 
             case .updateStep(let step, let status):
@@ -58,6 +61,9 @@ final class CreateStore: ObservableObject {
                         stepModel.err = err
                     }
                 }
+            
+            case .setSelected(type: let value):
+                state.selectedType = value
         }
     }
     

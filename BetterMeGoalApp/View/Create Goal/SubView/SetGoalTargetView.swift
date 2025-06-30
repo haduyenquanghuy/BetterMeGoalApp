@@ -58,7 +58,7 @@ struct SetGoalTargetView: View {
                             .font(BMFont.averta.font(with: 96))
                             .lineLimit(1)
                         
-                        Text(store.state.createdGoal.goalType.title)
+                        Text(store.state.createdGoal.goalType?.title ?? "")
                             .avertaFont(size: 16)
                             .fontWeight(.regular)
                             .foregroundStyle(.ink80)

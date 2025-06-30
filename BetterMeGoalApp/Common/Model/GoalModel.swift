@@ -14,7 +14,7 @@ struct GoalModel: Identifiable, Codable {
     var description: String?
     var coverImage: String?
     
-    var goalType: GoalType = .day
+    var goalType: GoalType?
     var category: GoalCategory?
     
     var totalTarget: Double?

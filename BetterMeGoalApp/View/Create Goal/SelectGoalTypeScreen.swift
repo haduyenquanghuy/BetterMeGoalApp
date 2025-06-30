@@ -43,7 +43,7 @@ struct SelectGoalTypeScreen: View {
                         router.createRoutes.append(.create)
                         
                         if let type = activeCard {
-                            createStore.send(.setGoal(GoalModel(goalType: type)))
+                            createStore.send(.setSelected(type: type))
                         }
                     }
                     .frame(width: 200)

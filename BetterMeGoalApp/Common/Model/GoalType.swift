@@ -57,11 +57,11 @@ enum GoalType: String, Codable, Identifiable, Hashable {
     var title: String {
         switch self {
             case .time:
-                "times"
+                "hours"
             case .day:
                 "days"
             case .quantity:
-                "hours"
+                "times"
         }
     }
     
