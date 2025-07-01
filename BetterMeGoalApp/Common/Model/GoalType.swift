@@ -21,6 +21,17 @@ enum GoalType: String, Codable, Identifiable, Hashable {
         [.quantity, .time, .day]
     }()
     
+    var suggestionTarget: [GoalSuggestionOption] {
+        switch self {
+            case .time:
+                [.copper, .silver, .gold, .diamond]
+            case .day:
+                [.firstStep, .persistent, .newHabit, .betterMe, .changeYourLife]
+            case .quantity:
+                []
+        }
+    }
+    
     var dislay: GoalTypeDisplay {
         switch self {
             case .time:
