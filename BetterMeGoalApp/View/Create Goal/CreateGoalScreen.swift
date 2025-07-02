@@ -10,6 +10,8 @@ import SwiftUI
 struct CreateGoalScreen: View {
     
     @EnvironmentObject private var createStore: CreateStore
+    @Binding var createdGoal: GoalModel
+    
     var step: CreateGoalStep
     
     var body: some View {
@@ -19,12 +21,12 @@ struct CreateGoalScreen: View {
             
             switch step {
                 case .detail:
-                    CreateDetailGoalView(goal: $createStore.state.createdGoal)
+                    CreateDetailGoalView(goal: $createdGoal)
                         .padding(.top, 24)
                 case .category:
-                    GoalCategoryCollectionView(isSelected: $createStore.state.createdGoal.category)
+                    GoalCategoryCollectionView(isSelected: $createdGoal.category)
                 case .target:
-                    SetGoalTargetView()
+                    SetGoalTargetView(createdGoal: $createdGoal)
                         .padding(.top, 24)
                 case .deadline:
                     EmptyView()
@@ -40,6 +42,6 @@ struct CreateGoalScreen: View {
 }
 
 #Preview {
-    CreateGoalScreen(step: .detail)
+    CreateGoalScreen(createdGoal: .constant(GoalModel()), step: .detail)
         .environmentObject(CreateStore())
 }

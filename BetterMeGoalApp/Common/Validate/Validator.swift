@@ -50,9 +50,10 @@ class Validator {
                     return MainError.fieldRequired
                 }
             case .target:
-                if goal.totalTarget == nil {
-                    return MainError.fieldRequired
-                }
+            guard let target = goal.totalTarget, target != 0 else {
+                return MainError.fieldRequired
+            }
+    
             case .deadline:
                 break
             case .review:

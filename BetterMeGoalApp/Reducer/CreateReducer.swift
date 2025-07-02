@@ -22,7 +22,7 @@ final class CreateStore: ObservableObject {
         case onAppear
         case updateStep(CreateGoalStep, CreateStepModel.Status)
         case setGoal(GoalModel)
-        case validateGoal(CreateGoalStep)
+        case validateGoal(GoalModel, CreateGoalStep)
         case update(err: Error?, step: CreateGoalStep)
         case setSelected(type: GoalType)
     }
@@ -51,8 +51,8 @@ final class CreateStore: ObservableObject {
                 state.createdGoal = goal
                 
                 
-            case .validateGoal(let step):
-                let error = Validator.shared.validate(goal: state.createdGoal, step: step)
+            case .validateGoal(let goal, let step):
+                let error = Validator.shared.validate(goal: goal, step: step)
                 send(.update(err: error, step: step))
                 
             case .update(err: let err, step: let step):

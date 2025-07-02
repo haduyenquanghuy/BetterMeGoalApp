@@ -13,6 +13,7 @@ struct CreateGoalFlowScreen: View {
     @EnvironmentObject private var createStore: CreateStore
     @FocusState private var isFocus: Bool
     @State private var currentStep: CreateGoalStep = .detail
+    @State private var createdGoal = GoalModel()
     
     var body: some View {
         VStack(spacing: 0) {
@@ -53,22 +54,15 @@ struct CreateGoalFlowScreen: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 0) {
                     ForEach(CreateGoalStep.allCases, id: \.self) { step in
-                        CreateGoalScreen(step: step)
+                        CreateGoalScreen(createdGoal: $createdGoal, step: step)
                             .frame(width: UIScreen.screenWidth)
                             .focused($isFocus)
                             .safeAreaInset(edge: .bottom) {
                                 MainButton(title: "Next") {
-                                    createStore.send(.validateGoal(step))
+                                    createStore.send(.validateGoal(createdGoal, step))
                                     
                                     if createStore.getGoal(at: step)?.err == nil {
-                                        
-                                        if let nextStep = currentStep.next {
-                                            currentStep = nextStep
-                                            createStore.send(.updateStep(nextStep, .doing))
-                                        }
-                                        
-                                        createStore.send(.updateStep(step, .done))
-                                        isFocus = false
+                                        handleNext(step: step)
                                     }
                                 }
                                 .padding(.bottom, 8)
@@ -85,6 +79,17 @@ struct CreateGoalFlowScreen: View {
                 }
             }
         }
+    }
+    
+    func handleNext(step: CreateGoalStep) {
+        
+        if let nextStep = currentStep.next {
+            currentStep = nextStep
+            createStore.send(.updateStep(nextStep, .doing))
+        }
+        
+        createStore.send(.updateStep(step, .done))
+        isFocus = false
     }
     
     var progress: some View {

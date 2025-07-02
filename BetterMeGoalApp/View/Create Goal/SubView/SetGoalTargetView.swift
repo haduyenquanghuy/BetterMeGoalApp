@@ -14,6 +14,7 @@ struct SetGoalTargetView: View {
     @StateObject private var inputUser = UserInputModel()
     @State private var isSet = false
     @State private var selectedItem: GoalSuggestionOption?
+    @Binding var createdGoal: GoalModel
     
     var body: some View {
         VStack(spacing: 0) {
@@ -110,6 +111,9 @@ struct SetGoalTargetView: View {
                 .padding(.top, 24)
             }
         }
+        .onChange(of: inputUser.number) {
+            createdGoal.totalTarget = inputUser.number
+        }
     }
     
     func showTextField(isShow: Bool) {
@@ -121,7 +125,7 @@ struct SetGoalTargetView: View {
 }
 
 #Preview {
-    SetGoalTargetView()
+    SetGoalTargetView(createdGoal: .constant(GoalModel()))
         .frame(maxHeight: .infinity)
         .background(Color.ink5)
         .environmentObject(CreateStore())
