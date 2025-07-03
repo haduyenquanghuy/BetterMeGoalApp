@@ -21,8 +21,10 @@ struct GoalModel: Identifiable, Codable {
     var currentProgress: Double?
     var progressUnit: String?
     
-    var startDate: Date?
-    var endDate: Date?
+    var startDate: String?
+    var endDate: String?
+    
+    var deadline: String?
     
     var streakCount: Int = 0
     var maxStreak: Int = 0

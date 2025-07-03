@@ -31,7 +31,6 @@ struct CreateGoalFlowScreen: View {
             }
             
             ToolbarItem(placement: .topBarLeading) {
-                
                 Button {
                     dismiss()
                 } label: {
@@ -40,7 +39,6 @@ struct CreateGoalFlowScreen: View {
                         .resizeImageFit(width: 28)
                         .foregroundStyle(Color.white)
                 }
-
             }
         }
         .customTabbar()
@@ -58,11 +56,28 @@ struct CreateGoalFlowScreen: View {
                             .frame(width: UIScreen.screenWidth)
                             .focused($isFocus)
                             .safeAreaInset(edge: .bottom) {
-                                MainButton(title: "Next") {
-                                    createStore.send(.validateGoal(createdGoal, step))
+                                VStack {
+                                    MainButton(title: step != .review ? "Next" : "Complete") {
+                                        createStore.send(.validateGoal(createdGoal, step))
+                                        
+                                        if createStore.getGoal(at: step)?.err == nil {
+                                            handleNext(step: step)
+                                        }
+                                    }
                                     
-                                    if createStore.getGoal(at: step)?.err == nil {
-                                        handleNext(step: step)
+                                    if step ==  .deadline {
+                                        Button {
+                                            handleNext(step: step)
+                                        } label: {
+                                            Text("No Deadline, Skip")
+                                                .avertaFont(size: 18)
+                                                .underline()
+                                                .fontWeight(.semibold)
+                                                .foregroundStyle(Color(.ink60))
+                                        }
+                                        .frame(height: 44)
+                                        .frame(maxWidth: .infinity)
+                                        .background(Color.clear)
                                     }
                                 }
                                 .padding(.bottom, 8)

@@ -29,11 +29,12 @@ struct CreateGoalScreen: View {
                     SetGoalTargetView(createdGoal: $createdGoal)
                         .padding(.top, 24)
                 case .deadline:
-                    EmptyView()
+                    SetGoalDeadlineView(selectedDate: $createdGoal.deadline)
+                        .padding(.top, 24)
                 case .review:
-                    EmptyView()
+                    ReviewCreateGoalView()
+                        .padding(.top, 24)
             }
-            
 
             Spacer()
         }

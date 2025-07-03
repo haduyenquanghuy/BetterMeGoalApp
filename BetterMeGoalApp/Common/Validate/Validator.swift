@@ -8,6 +8,7 @@
 import Foundation
 
 protocol ValidationRule {
+    
     func validate(value: String, other: String?) -> MainError?
     
     var minLength: Int? { get }
@@ -43,19 +44,21 @@ class Validator {
                 guard let title = goal.title else {
                     return MainError.emptyTitle
                 }
-                return validate(title, rule: TitleRule())
+                return validate(title, rule: RuleSet.titleRule)
                 
             case .category:
                 if goal.category == nil {
                     return MainError.fieldRequired
                 }
             case .target:
-            guard let target = goal.totalTarget, target != 0 else {
-                return MainError.fieldRequired
-            }
-    
+                guard let target = goal.totalTarget, target != 0 else {
+                    return MainError.fieldRequired
+                }
             case .deadline:
-                break
+                guard let deadline = goal.deadline else {
+                    return MainError.emptyDateTime
+                }
+                return validate(deadline, rule: RuleSet.strDateTimeRule)
             case .review:
                 break
         }
@@ -68,5 +71,6 @@ enum RuleSet {
     static let passwordRule = PasswordRule()
     static let repasswordRule = RePasswordRule()
     static let titleRule = TitleRule()
+    static let strDateTimeRule = DateTimeStringRule()
 }
 

@@ -26,6 +26,10 @@ enum MainError: Error {
     case titleTooLong
     
     case fieldRequired
+    
+    case emptyDateTime
+    case invalidDateTimeFormat
+    case tooSoon
 }
 
 extension MainError: LocalizedError {
@@ -63,6 +67,13 @@ extension MainError: LocalizedError {
                 
             case .fieldRequired:
                 "Field is required"
+                
+            case .invalidDateTimeFormat:
+                "The deadline format is invalid."
+            case .tooSoon:
+                "The deadline must be at least one day in the future."
+            case .emptyDateTime:
+                "Please enter a deadline, or choose 'Skip' if this goal doesn't require one."
         }
     }
 }

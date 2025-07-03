@@ -15,18 +15,17 @@ extension GoalModel {
         return min(100, (currentProgress / Double(totalTarget)) * 100)
     }
 
-    var totalDays: Int? {
-        guard let startDate = startDate, let endDate = endDate else { return nil }
-        
-        return startDate.totalDays(until: endDate)
-    }
-
-    var currentDay: Int {
-        startDate.map {
-            Date().currentDay(from: $0)
-        } ?? 0
-        
-    }
+//    var totalDays: Int? {
+//        guard let startDate = startDate, let endDate = endDate else { return nil }
+//        
+//        return startDate.totalDays(until: endDate)
+//    }
+//
+//    var currentDay: Int {
+//        startDate.map {
+//            Date().currentDay(from: $0)
+//        } ?? 0
+//    }
 
     var isStreakFailedToday: Bool {
         !streakHistory.contains { Calendar.current.isDateInToday($0) }
