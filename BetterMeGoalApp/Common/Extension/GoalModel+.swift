@@ -9,11 +9,11 @@ import Foundation
 
 extension GoalModel {
     
-    var progressPercent: Double {
-        guard let currentProgress = currentProgress, let totalTarget = totalTarget, totalTarget > 0 else { return 0 }
-        
-        return min(100, (currentProgress / Double(totalTarget)) * 100)
-    }
+//    var progressPercent: Double {
+//        guard let currentProgress = currentProgress, let totalTarget = totalTarget, totalTarget > 0 else { return 0 }
+//        
+//        return min(100, (currentProgress / Double(totalTarget)) * 100)
+//    }
 
 //    var totalDays: Int? {
 //        guard let startDate = startDate, let endDate = endDate else { return nil }

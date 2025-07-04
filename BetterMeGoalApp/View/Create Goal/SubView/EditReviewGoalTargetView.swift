@@ -29,7 +29,8 @@ struct EditReviewGoalTargetView : View {
                     Spacer()
                     
                     Image(.icRemove)
-                        .resizeImageFit(width: 16)
+                        .resizeImageFit(width: 16, isOriginal: false)
+                        .foregroundStyle(.secondary)
                         .onTapGesture {
                             isEdit = false
                             isFocus = false
@@ -68,7 +69,7 @@ struct EditReviewGoalTitletView : View {
                     .foregroundStyle(.ink60)
                     .fontWeight(.regular)
                 
-                TextField("Name", text: $text)
+                TextField(placeholder, text: $text)
                     .font(BMFont.averta.font(with: 18))
                     .focused($isFocus)
                 
@@ -76,7 +77,8 @@ struct EditReviewGoalTitletView : View {
             
             if isEdit {
                 Image(.icRemove)
-                    .resizeImageFit(width: 16)
+                    .resizeImageFit(width: 16, isOriginal: false)
+                    .foregroundStyle(.secondary)
                     .onTapGesture {
                         isEdit = false
                         isFocus = false
@@ -84,7 +86,8 @@ struct EditReviewGoalTitletView : View {
                     }
             } else {
                 Image(.icEdit)
-                    .resizeImageFit(width: 16)
+                    .resizeImageFit(width: 16, isOriginal: false)
+                    .foregroundStyle(.secondary)
                     .onTapGesture {
                         saveText = text
                         isEdit = true
@@ -102,8 +105,12 @@ struct EditReviewGoalDeadlineView: View {
     @State var saveText: String = ""
     @Binding var isShowCalendar: Bool
     
+    var emptyTextHandler: String {
+        text.isEmpty ? "No Deadline" : text
+    }
+    
     var body: some View {
-        EditLabelView(text: text) {
+        EditLabelView(text: emptyTextHandler) {
             saveText = text
             withAnimation(.linear(duration: 0.25)) {
                 isShowCalendar = true

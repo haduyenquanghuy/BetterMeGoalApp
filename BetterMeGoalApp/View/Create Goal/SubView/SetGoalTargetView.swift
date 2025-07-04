@@ -112,7 +112,7 @@ struct SetGoalTargetView: View {
             }
         }
         .onChange(of: inputUser.number) {
-            createdGoal.totalTarget = inputUser.number
+            createdGoal.totalTarget = String(inputUser.number)
         }
     }
     

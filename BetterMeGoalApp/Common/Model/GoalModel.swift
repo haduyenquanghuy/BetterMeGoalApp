@@ -17,7 +17,7 @@ struct GoalModel: Identifiable, Codable {
     var goalType: GoalType?
     var category: GoalCategory?
     
-    var totalTarget: Int?
+    var totalTarget: String?
     var currentProgress: Double?
     var progressUnit: String?
     

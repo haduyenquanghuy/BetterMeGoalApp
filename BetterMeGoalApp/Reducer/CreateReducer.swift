@@ -25,6 +25,8 @@ final class CreateStore: ObservableObject {
         case validateGoal(GoalModel, CreateGoalStep)
         case update(err: Error?, step: CreateGoalStep)
         case setSelected(type: GoalType)
+        case validateFinalGoal(GoalModel)
+        case requestCreateGoal(GoalModel)
     }
     
     @Published var state = State()
@@ -63,6 +65,12 @@ final class CreateStore: ObservableObject {
             
             case .setSelected(type: let value):
                 state.selectedType = value
+                
+            case .validateFinalGoal(let createdGoal):
+                send(.requestCreateGoal(createdGoal))
+            
+            case .requestCreateGoal(let createdGoal):
+                print("Create Goal")
         }
     }
     

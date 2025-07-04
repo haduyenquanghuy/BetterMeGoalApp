@@ -51,7 +51,7 @@ class Validator {
                     return MainError.fieldRequired
                 }
             case .target:
-                guard let target = goal.totalTarget, target != 0 else {
+                guard let target = goal.totalTarget.map({ Int($0) }), target != 0 else {
                     return MainError.fieldRequired
                 }
             case .deadline:
@@ -64,6 +64,7 @@ class Validator {
         }
         return nil
     }
+    
 }
 
 enum RuleSet {

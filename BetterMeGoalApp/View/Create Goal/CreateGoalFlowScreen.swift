@@ -58,15 +58,20 @@ struct CreateGoalFlowScreen: View {
                             .safeAreaInset(edge: .bottom) {
                                 VStack {
                                     MainButton(title: step != .review ? "Next" : "Complete") {
-                                        createStore.send(.validateGoal(createdGoal, step))
-                                        
-                                        if createStore.getGoal(at: step)?.err == nil {
-                                            handleNext(step: step)
+                                        if step != .review {
+                                            createStore.send(.validateGoal(createdGoal, step))
+                                            
+                                            if createStore.getGoal(at: step)?.err == nil {
+                                                handleNext(step: step)
+                                            }
+                                        } else {
+                                            createStore.send(.validateFinalGoal(createdGoal))
                                         }
                                     }
                                     
                                     if step ==  .deadline {
                                         Button {
+                                            createdGoal.deadline = nil
                                             handleNext(step: step)
                                         } label: {
                                             Text("No Deadline, Skip")

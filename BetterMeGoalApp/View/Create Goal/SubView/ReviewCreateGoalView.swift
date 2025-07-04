@@ -37,7 +37,7 @@ struct ReviewCreateGoalView: View {
                 Text("2. Goal Target")
                     .latoFont(size: 14)
             } content: {
-                EditReviewGoalTargetView(text: $createdGoal.description.unwrapped)
+                EditReviewGoalTargetView(text: $createdGoal.totalTarget.unwrapped)
             }
 
             CustomSection {
@@ -49,65 +49,11 @@ struct ReviewCreateGoalView: View {
             
         }
         .overlay(
-            CalendarOverlayView(show: $showCalendar, date: $date)
+            CalendarOverlayView(show: $showCalendar, selectedDate: $createdGoal.deadline.unwrapped)
         )
-        .onAppear {
-            
-        }
     }
 }
 
-struct CalendarOverlayView: View {
-    @Binding var show: Bool
-    @Binding var date: Date
-    
-    var body: some View {
-        if show {
-            ZStack {
-                // Nền mờ
-                Color.black.opacity(0.36)
-                    .ignoresSafeArea()
-                    .onTapGesture {
-                        withAnimation {
-                            show = false
-                        }
-                    }
-
-                VStack(spacing: 12) {
-                    DatePicker(
-                        "Deadline",
-                        selection: $date,
-                        displayedComponents: [.date, .hourAndMinute]
-                    )
-                    .datePickerStyle(.graphical)
-                    .padding()
-
-                    HStack(spacing: 20) {
-                        Spacer()
-                        
-                        Button("OK") {
-                            withAnimation {
-                                show = false
-                            }
-                        }
-                        .padding(.trailing, 12)
-
-                        Button("Cancel") {
-                            withAnimation {
-                                show = false
-                            }
-                        }
-                    }
-                    .frame(height: 44)
-                    .padding(.horizontal)
-                }
-                .background(Color.white)
-                .cornerRadius(20)
-                .padding()
-            }
-        }
-    }
-}
 
 #Preview {
     ReviewCreateGoalView(createdGoal: .constant(GoalModel()))
