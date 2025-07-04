@@ -13,7 +13,7 @@ struct GoalSuggestItemView: View {
     var isSelected: Bool
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 24) {
+        VStack(alignment: .leading, spacing: 16) {
             Text(item.title)
                 .avertaFont(size: 20)
                 .fontWeight(.semibold)

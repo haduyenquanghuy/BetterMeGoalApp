@@ -32,7 +32,7 @@ struct CreateGoalScreen: View {
                     SetGoalDeadlineView(selectedDate: $createdGoal.deadline)
                         .padding(.top, 24)
                 case .review:
-                    ReviewCreateGoalView()
+                    ReviewCreateGoalView(createdGoal: $createdGoal)
                         .padding(.top, 24)
             }
 

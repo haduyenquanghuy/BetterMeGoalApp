@@ -110,7 +110,7 @@ struct CreateGoalFlowScreen: View {
     var progress: some View {
         ScrollViewReader { proxy in
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 12) {
+                HStack(spacing: 0) {
                     ForEach(createStore.state.steps, id: \.step) { item in
                         VStack(spacing: 4) {
                             Button {
@@ -134,7 +134,7 @@ struct CreateGoalFlowScreen: View {
                         .padding(.vertical, 12)
                         .id(item.step)
                     }
-                    .padding(.leading, 16)
+                    .padding(.leading, 12)
                 }
                 .onChange(of: currentStep) {
                     withAnimation {
