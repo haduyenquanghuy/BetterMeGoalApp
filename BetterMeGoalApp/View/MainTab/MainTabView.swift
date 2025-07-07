@@ -16,7 +16,7 @@ struct MainTabView: View {
     var body: some View {
         ZStack(alignment: .bottom) {
             TabView(selection: $selectedTab) {
-                NavigationStack { GoalView() }
+                NavigationStack { GoalListView() }
                     .tag(TabSection.goal)
                 
                 NavigationStack { DairyView() }
@@ -31,8 +31,11 @@ struct MainTabView: View {
             .toolbar(.hidden, for: .tabBar)
             
             MainTabbarView(selectedTab: $selectedTab, showCreate: $createStore.state.isShow)
+                .padding(.bottom, 24)
+                .background(Color.white)
         }
         .ignoresSafeArea(.keyboard)
+        .edgesIgnoringSafeArea(.bottom)
         .fullScreenCover(isPresented: $createStore.state.isShow) {
             SelectGoalTypeScreen(isShow: $createStore.state.isShow)
         }

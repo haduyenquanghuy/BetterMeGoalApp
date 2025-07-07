@@ -61,4 +61,29 @@ enum GoalCategory: Int, Codable, CaseIterable {
                     .imgGuitar
         }
     }
+    
+    var cardImage: ImageResource {
+        switch self {
+            case .selfImproment:
+                    .bearTrying
+            case .health:
+                    .bearWorkout
+            case .finance:
+                    .bearSaving
+            case .career:
+                    .bearWorking
+            case .education:
+                    .bearReading
+            case .relationship:
+                    .bearLoving
+            case .habit:
+                    .bearPlan
+            case .travel:
+                    .bearTraveling
+            case .community:
+                    .bearHandshake
+            case .hobbies:
+                    .bearPlayingPiano
+        }
+    }
 }

@@ -38,6 +38,11 @@ class DIContainer {
         container.register(MainTabStore.self) { _ in
             return MainTabStore()
         }
+        
+        container.register(GoalStore.self) { resolver in
+            let goalService = resolver.resolve(GoalServiceProtocol.self)!
+            return GoalStore(service: goalService)
+        }
     }
 
     // Lấy service hoặc store từ container

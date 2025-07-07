@@ -21,7 +21,7 @@ struct GoalModel: Identifiable, Codable {
     var category: GoalCategory?
     
     var totalTarget: String?
-    var currentProgress: Double?
+    var currentProgress: String?
     var progressUnit: String?
     
     var startDate: String?
@@ -36,6 +36,23 @@ struct GoalModel: Identifiable, Codable {
     
     var subTasks: [SubTask] = []
     var historyLog: [ProgressLog] = []
+}
+
+
+// MARK: - Computed Properties
+extension GoalModel {
+    
+    var deadlineLbl: String {
+        deadline.map {
+            "End: \($0)"
+        } ?? "No Deadline"
+    }
+    
+    var totalTargetLbl: String {
+        guard let type = goalType, let totalTarget = totalTarget else { return "" }
+        
+        return "\(totalTarget) \(type.title)"
+    }
 }
 
 struct SubTask: Identifiable, Codable {

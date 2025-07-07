@@ -20,12 +20,14 @@ struct BetterMeGoalAppApp: App {
             let authStore = diContainer.resolve(AuthStore.self)!
             let createStore = diContainer.resolve(CreateStore.self)!
             let mainTabStore = diContainer.resolve(MainTabStore.self)!
+            let goalStore = diContainer.resolve(GoalStore.self)!
             
             RootScreen()
                 .environmentObject(Router())
                 .environmentObject(authStore)
                 .environmentObject(createStore)
                 .environmentObject(mainTabStore)
+                .environmentObject(goalStore)
         }
     }
 }
