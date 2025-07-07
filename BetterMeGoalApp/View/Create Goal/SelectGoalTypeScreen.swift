@@ -134,5 +134,5 @@ struct SelectGoalTypeScreen: View {
 #Preview {
     SelectGoalTypeScreen(isShow: .constant(true))
         .environmentObject(Router())
-        .environmentObject(CreateStore())
+        .environmentObject(CreateStore(service: GoalService()))
 }

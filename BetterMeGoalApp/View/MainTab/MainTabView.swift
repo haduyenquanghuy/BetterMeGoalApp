@@ -9,8 +9,9 @@ import SwiftUI
 
 struct MainTabView: View {
     
+    @EnvironmentObject private var mainTabStore: MainTabStore
+    @EnvironmentObject private var createStore: CreateStore
     @State private var selectedTab: TabSection = .goal
-    @State private var showCreate: Bool = false
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -29,16 +30,17 @@ struct MainTabView: View {
             }
             .toolbar(.hidden, for: .tabBar)
             
-            MainTabbarView(selectedTab: $selectedTab, showCreate: $showCreate)
+            MainTabbarView(selectedTab: $selectedTab, showCreate: $createStore.state.isShow)
         }
         .ignoresSafeArea(.keyboard)
-        .fullScreenCover(isPresented: $showCreate) {
-            SelectGoalTypeScreen(isShow: $showCreate)
+        .fullScreenCover(isPresented: $createStore.state.isShow) {
+            SelectGoalTypeScreen(isShow: $createStore.state.isShow)
         }
-        
     }
 }
 
 #Preview {
     MainTabView()
+        .environmentObject(MainTabStore())
+        .environmentObject(CreateStore(service: GoalService()))
 }

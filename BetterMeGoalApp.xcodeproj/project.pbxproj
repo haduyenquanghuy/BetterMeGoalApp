@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		36012D062E02B4B300367992 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 36012D052E02B4B300367992 /* FirebaseAnalytics */; };
 		36012D092E02B61800367992 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 36012D082E02B61800367992 /* FirebaseAuth */; };
+		36F2646F2E1B7B7B00403C34 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 36F2646E2E1B7B7B00403C34 /* FirebaseFirestore */; };
 		36F9BE252E03E35400B98AC0 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 36F9BE242E03E35400B98AC0 /* Swinject */; };
 /* End PBXBuildFile section */
 
@@ -43,6 +44,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				36012D062E02B4B300367992 /* FirebaseAnalytics in Frameworks */,
+				36F2646F2E1B7B7B00403C34 /* FirebaseFirestore in Frameworks */,
 				36012D092E02B61800367992 /* FirebaseAuth in Frameworks */,
 				36F9BE252E03E35400B98AC0 /* Swinject in Frameworks */,
 			);
@@ -98,6 +100,7 @@
 				36012D052E02B4B300367992 /* FirebaseAnalytics */,
 				36012D082E02B61800367992 /* FirebaseAuth */,
 				36F9BE242E03E35400B98AC0 /* Swinject */,
+				36F2646E2E1B7B7B00403C34 /* FirebaseFirestore */,
 			);
 			productName = BetterMeGoalApp;
 			productReference = 3620D6402DFBD47500FEDB64 /* BetterMeGoalApp.app */;
@@ -395,6 +398,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 36012D042E02B4B300367992 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
+		};
+		36F2646E2E1B7B7B00403C34 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 36012D042E02B4B300367992 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
 		};
 		36F9BE242E03E35400B98AC0 /* Swinject */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -6,10 +6,13 @@
 //
 
 import Foundation
+import FirebaseFirestore
 
 struct GoalModel: Identifiable, Codable {
     
-    var id: UUID = UUID()
+    @DocumentID var id: String?
+    @ServerTimestamp var createdAt: Timestamp?
+    
     var title: String?
     var description: String?
     var coverImage: String?

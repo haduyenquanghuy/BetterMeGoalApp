@@ -20,6 +20,7 @@ class DIContainer {
     // Đăng ký các service
     private func registerServices() {
         container.register(AuthServiceProtocol.self) { _ in AuthService() }.inObjectScope(.container)
+        container.register(GoalServiceProtocol.self) { _ in GoalService() }.inObjectScope(.container)
     }
 
 //    // Đăng ký các store
@@ -29,8 +30,13 @@ class DIContainer {
             return AuthStore(service: authService)
         }
         
-        container.register(CreateStore.self) { _ in
-            return CreateStore()
+        container.register(CreateStore.self) { resolver in
+            let createService = resolver.resolve(GoalServiceProtocol.self)!
+            return CreateStore(service: createService)
+        }
+        
+        container.register(MainTabStore.self) { _ in
+            return MainTabStore()
         }
     }
 

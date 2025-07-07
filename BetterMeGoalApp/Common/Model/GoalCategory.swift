@@ -8,9 +8,9 @@
 import Foundation
 import SwiftUI
 
-enum GoalCategory: String, Codable, CaseIterable {
+enum GoalCategory: Int, Codable, CaseIterable {
     
-    case selfImproment
+    case selfImproment = 1
     case health
     case finance
     case career

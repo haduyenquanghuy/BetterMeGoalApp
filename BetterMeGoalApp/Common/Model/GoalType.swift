@@ -8,12 +8,13 @@
 import Foundation
 import SwiftUI
 
-enum GoalType: String, Codable, Identifiable, Hashable {
+enum GoalType: Int, Codable, Identifiable, Hashable {
+    
     var id: GoalType {
         return self
     }
     
-    case time
+    case time = 1
     case day
     case quantity
     

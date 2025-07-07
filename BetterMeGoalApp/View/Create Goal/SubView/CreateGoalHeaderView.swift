@@ -42,12 +42,12 @@ struct CreateGoalHeaderView: View {
             animationAnchor: .bottom,
             actionIcon: "xmark"
         ) {
-            createStore.send(.update(err: nil, step: step))
+            createStore.send(.updateError(nil, step: step))
         }, isPresented: err != nil)
     }
 }
 
 #Preview {
     CreateGoalHeaderView(step: .detail)
-        .environmentObject(CreateStore())
+        .environmentObject(CreateStore(service: GoalService()))
 }

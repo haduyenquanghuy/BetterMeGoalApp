@@ -58,14 +58,10 @@ struct CreateGoalFlowScreen: View {
                             .safeAreaInset(edge: .bottom) {
                                 VStack {
                                     MainButton(title: step != .review ? "Next" : "Complete") {
-                                        if step != .review {
-                                            createStore.send(.validateGoal(createdGoal, step))
-                                            
-                                            if createStore.getGoal(at: step)?.err == nil {
-                                                handleNext(step: step)
-                                            }
-                                        } else {
-                                            createStore.send(.validateFinalGoal(createdGoal))
+                                        createStore.send(.validateGoal(createdGoal, step))
+                                        
+                                        if createStore.getGoal(at: step)?.err == nil {
+                                            handleNext(step: step)
                                         }
                                     }
                                     
@@ -106,6 +102,8 @@ struct CreateGoalFlowScreen: View {
         if let nextStep = currentStep.next {
             currentStep = nextStep
             createStore.send(.updateStep(nextStep, .doing))
+        } else {
+            // isComplete
         }
         
         createStore.send(.updateStep(step, .done))
@@ -221,6 +219,6 @@ enum CreateGoalStep: Int, CaseIterable, Identifiable {
 #Preview {
     NavigationStack {
         CreateGoalFlowScreen()
-            .environmentObject(CreateStore())
+            .environmentObject(CreateStore(service: GoalService()))
     }
 }
