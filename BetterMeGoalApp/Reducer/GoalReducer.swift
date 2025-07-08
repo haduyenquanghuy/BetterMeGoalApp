@@ -13,12 +13,14 @@ final class GoalStore: ObservableObject {
     
     struct State {
         var goals = [GoalModel]()
+        var isLoading: Bool = false
     }
     
     enum Action {
         case onAppear
         case fetchGoal
         case setGoals([GoalModel])
+        case isLoading(Bool)
     }
     
     @Published var state = State()
@@ -36,6 +38,8 @@ final class GoalStore: ObservableObject {
                 self.fetchGoal()
             case .setGoals(let value):
                 state.goals = value
+            case .isLoading(let value):
+                state.isLoading = value
         }
     }
     
@@ -45,10 +49,14 @@ final class GoalStore: ObservableObject {
             return
         }
         
+        send(.isLoading(true))
+        
         Task {
             do {
                 let goals = try await service.fetchGoals(userId: userId)
                 send(.setGoals(goals))
+                send(.isLoading(false))
+                
             } catch {
                 print("❌ Lỗi fetch goals: \(error)")
             }

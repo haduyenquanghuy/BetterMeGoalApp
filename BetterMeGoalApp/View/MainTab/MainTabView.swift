@@ -11,6 +11,9 @@ struct MainTabView: View {
     
     @EnvironmentObject private var mainTabStore: MainTabStore
     @EnvironmentObject private var createStore: CreateStore
+    @EnvironmentObject private var goalStore: GoalStore
+    @EnvironmentObject private var appState: AppState
+    
     @State private var selectedTab: TabSection = .goal
     
     var body: some View {
@@ -36,8 +39,20 @@ struct MainTabView: View {
         }
         .ignoresSafeArea(.keyboard)
         .edgesIgnoringSafeArea(.bottom)
+        .overlay(loadingOverlay)
         .fullScreenCover(isPresented: $createStore.state.isShow) {
             SelectGoalTypeScreen(isShow: $createStore.state.isShow)
+        }
+        .onChange(of: goalStore.state.isLoading) {
+            appState.isLoading = goalStore.state.isLoading
+        }
+    }
+    
+    @ViewBuilder var loadingOverlay: some View {
+        if  goalStore.state.isLoading {
+            LoadingView()
+        } else {
+            EmptyView()
         }
     }
 }

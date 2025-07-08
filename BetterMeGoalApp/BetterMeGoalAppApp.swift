@@ -28,6 +28,7 @@ struct BetterMeGoalAppApp: App {
                 .environmentObject(createStore)
                 .environmentObject(mainTabStore)
                 .environmentObject(goalStore)
+                .environmentObject(AppState())
         }
     }
 }
