@@ -17,6 +17,10 @@ final class GoalStore: ObservableObject {
         var currentGoal = GoalModel()
     }
     
+    struct Cache {
+        var listDaysOfWeek:[String] = []
+    }
+    
     enum Action {
         case onAppear
         case requestGoals
@@ -27,6 +31,7 @@ final class GoalStore: ObservableObject {
     }
     
     @Published var state = State()
+    var cache = Cache()
     var service: GoalServiceProtocol
     var shareStore: ShareStore
     
@@ -39,6 +44,7 @@ final class GoalStore: ObservableObject {
         switch action {
             case .onAppear:
                 send(.requestGoals)
+                cache.listDaysOfWeek = getWeekdaySymbols()
             case .requestGoals:
                 self.fetchGoals()
             case .setGoals(let value):
@@ -89,6 +95,22 @@ final class GoalStore: ObservableObject {
                 print("❌ Lỗi fetch goals: \(error)")
             }
         }
+    }
+    
+    private func getWeekdaySymbols(for locale: Locale = Locale.current) -> [String] {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = locale
+
+        // Dùng weekdaySymbols để lấy tên các ngày bắt đầu từ Chủ nhật (CN, Mon,...)
+        // Dùng shortWeekdaySymbols để lấy dạng ngắn (Mon, Tue, Thứ 2, Thứ 3,...)
+        let calendar = Calendar.current
+        var symbols = dateFormatter.shortWeekdaySymbols ?? []
+
+        // Sắp xếp lại thứ bắt đầu từ ngày đầu tuần của thiết bị (ví dụ: thứ 2 hay chủ nhật)
+        let firstWeekdayIndex = calendar.firstWeekday - 1
+        symbols = Array(symbols[firstWeekdayIndex...] + symbols[..<firstWeekdayIndex])
+
+        return symbols
     }
 }
 
