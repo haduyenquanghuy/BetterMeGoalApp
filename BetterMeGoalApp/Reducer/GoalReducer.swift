@@ -14,13 +14,16 @@ final class GoalStore: ObservableObject {
     struct State {
         var goals = [GoalModel]()
         var isLoading: Bool = false
+        var currentGoal = GoalModel()
     }
     
     enum Action {
         case onAppear
-        case fetchGoal
+        case requestGoals
+        case requestDetailGoal(goalId: String)
         case setGoals([GoalModel])
         case isLoading(Bool)
+        case setDetailGoal(GoalModel)
     }
     
     @Published var state = State()
@@ -35,17 +38,21 @@ final class GoalStore: ObservableObject {
     func send(_ action: Action) {
         switch action {
             case .onAppear:
-                send(.fetchGoal)
-            case .fetchGoal:
-                self.fetchGoal()
+                send(.requestGoals)
+            case .requestGoals:
+                self.fetchGoals()
             case .setGoals(let value):
                 state.goals = value
             case .isLoading(let value):
                 state.isLoading = value
+            case .requestDetailGoal(let goalId):
+                fetchDetailGoal(goalId: goalId)
+            case .setDetailGoal(let value):
+                state.currentGoal = value
         }
     }
     
-    private func fetchGoal() {
+    private func fetchGoals() {
         guard let userId = Auth.auth().currentUser?.uid else {
             print("Chưa đăng nhập.")
             return
@@ -59,6 +66,25 @@ final class GoalStore: ObservableObject {
                 send(.setGoals(goals))
                 shareStore.send(.setLoading(false))
                 
+            } catch {
+                print("❌ Lỗi fetch goals: \(error)")
+            }
+        }
+    }
+    
+    private func fetchDetailGoal(goalId: String) {
+        guard let userId = Auth.auth().currentUser?.uid else {
+            print("Chưa đăng nhập.")
+            return
+        }
+        
+        shareStore.send(.setLoading(true))
+        
+        Task {
+            do {
+                let goal = try await service.fetchGoal(userId: userId, goalId: goalId)
+                send(.setDetailGoal(goal))
+                shareStore.send(.setLoading(false))
             } catch {
                 print("❌ Lỗi fetch goals: \(error)")
             }

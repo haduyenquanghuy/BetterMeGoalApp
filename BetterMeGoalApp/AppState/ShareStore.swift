@@ -10,22 +10,29 @@ import Combine
 
 @MainActor
 final class ShareStore: ObservableObject {
-    
-    struct State {
-        var isLoading: Bool = false
-    }
-    
-    enum Action {
-        case setLoading(Bool)
-    }
-    
+
     @Published var state = State()
+    var cache = Cache()
     
     func send(_ action: Action) {
         switch action {
             case .setLoading(let value):
                 state.isLoading = value
         }
+    }
+}
+
+extension ShareStore {
+    struct State {
+        var isLoading: Bool = false
+    }
+    
+    struct Cache {
+        
+    }
+    
+    enum Action {
+        case setLoading(Bool)
     }
 }
 

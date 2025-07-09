@@ -13,6 +13,8 @@ protocol GoalServiceProtocol {
     func createGoal(goal: GoalModel, userId: String) async throws -> String
     
     func fetchGoals(userId: String) async throws -> [GoalModel]
+    
+    func fetchGoal(userId: String, goalId: String) async throws -> GoalModel
 }
 
 final class GoalService: GoalServiceProtocol {
@@ -41,5 +43,15 @@ final class GoalService: GoalServiceProtocol {
             .getDocuments()
             .documents
             .compactMap { try? $0.data(as: GoalModel.self) }
+    }
+    
+    func fetchGoal(userId: String, goalId: String) async throws -> GoalModel {
+        try await Firestore.firestore()
+            .collection(FirestoreKeys.users)
+            .document(userId)
+            .collection(FirestoreKeys.goals)
+            .document(goalId)
+            .getDocument()
+            .data(as: GoalModel.self)
     }
 }

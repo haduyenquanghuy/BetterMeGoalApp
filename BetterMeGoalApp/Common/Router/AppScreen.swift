@@ -21,13 +21,17 @@ enum AuthRoute: Hashable {
 }
 
 enum CreateRoute: Hashable {
-
     case create
+}
+
+enum GoalRouter: Hashable {
+    case detailGoal(goalId: String)
 }
 
 class Router: ObservableObject {
     
     @Published var authRoutes: [AuthRoute] = []
     @Published var createRoutes: [CreateRoute] = []
+    @Published var goalRoutes: [GoalRouter] = []
     
 }

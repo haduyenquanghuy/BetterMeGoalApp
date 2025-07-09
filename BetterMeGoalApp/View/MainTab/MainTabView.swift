@@ -13,13 +13,15 @@ struct MainTabView: View {
     @EnvironmentObject private var createStore: CreateStore
     @EnvironmentObject private var goalStore: GoalStore
     @EnvironmentObject private var shareStore: ShareStore
+    @EnvironmentObject private var router: Router
     
     @State private var selectedTab: TabSection = .goal
     
     var body: some View {
         ZStack(alignment: .bottom) {
             TabView(selection: $selectedTab) {
-                NavigationStack { GoalListView() }
+                
+                NavigationStack(path: $router.goalRoutes) { GoalListScreen() }
                     .tag(TabSection.goal)
                 
                 NavigationStack { DairyView() }
