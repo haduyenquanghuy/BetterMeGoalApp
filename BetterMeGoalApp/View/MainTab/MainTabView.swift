@@ -12,7 +12,7 @@ struct MainTabView: View {
     @EnvironmentObject private var mainTabStore: MainTabStore
     @EnvironmentObject private var createStore: CreateStore
     @EnvironmentObject private var goalStore: GoalStore
-    @EnvironmentObject private var appState: AppState
+    @EnvironmentObject private var shareStore: ShareStore
     
     @State private var selectedTab: TabSection = .goal
     
@@ -43,22 +43,19 @@ struct MainTabView: View {
         .fullScreenCover(isPresented: $createStore.state.isShow) {
             SelectGoalTypeScreen(isShow: $createStore.state.isShow)
         }
-        .onChange(of: goalStore.state.isLoading) {
-            appState.isLoading = goalStore.state.isLoading
-        }
     }
     
     @ViewBuilder var loadingOverlay: some View {
-        if  goalStore.state.isLoading {
+        if shareStore.state.isLoading {
             LoadingView()
         } else {
             EmptyView()
         }
-    }
+    } 
 }
 
 #Preview {
     MainTabView()
         .environmentObject(MainTabStore())
-        .environmentObject(CreateStore(service: GoalService()))
+        .environmentObject(CreateStore(service: GoalService(), shareStore: ShareStore()))
 }

@@ -25,9 +25,11 @@ final class GoalStore: ObservableObject {
     
     @Published var state = State()
     var service: GoalServiceProtocol
+    var shareStore: ShareStore
     
-    init(service: GoalServiceProtocol) {
-        self.service = GoalService()
+    init(service: GoalServiceProtocol, shareStore: ShareStore) {
+        self.service = service
+        self.shareStore = shareStore
     }
     
     func send(_ action: Action) {
@@ -49,13 +51,13 @@ final class GoalStore: ObservableObject {
             return
         }
         
-        send(.isLoading(true))
+        shareStore.send(.setLoading(true))
         
         Task {
             do {
                 let goals = try await service.fetchGoals(userId: userId)
                 send(.setGoals(goals))
-                send(.isLoading(false))
+                shareStore.send(.setLoading(false))
                 
             } catch {
                 print("❌ Lỗi fetch goals: \(error)")

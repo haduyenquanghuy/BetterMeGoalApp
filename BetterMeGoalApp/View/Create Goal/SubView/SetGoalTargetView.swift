@@ -128,5 +128,5 @@ struct SetGoalTargetView: View {
     SetGoalTargetView(createdGoal: .constant(GoalModel()))
         .frame(maxHeight: .infinity)
         .background(Color.ink5)
-        .environmentObject(CreateStore(service: GoalService()))
+        .environmentObject(CreateStore(service: GoalService(), shareStore: ShareStore()))
 }

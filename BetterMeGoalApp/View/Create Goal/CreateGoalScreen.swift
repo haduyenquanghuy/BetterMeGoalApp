@@ -44,5 +44,5 @@ struct CreateGoalScreen: View {
 
 #Preview {
     CreateGoalScreen(createdGoal: .constant(GoalModel()), step: .detail)
-        .environmentObject(CreateStore(service: GoalService()))
+        .environmentObject(CreateStore(service: GoalService(), shareStore: ShareStore()))
 }

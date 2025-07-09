@@ -31,5 +31,5 @@ struct GoalListView: View {
 
 #Preview {
     GoalListView()
-        .environmentObject(GoalStore(service: GoalService()))
+        .environmentObject(GoalStore(service: GoalService(), shareStore: ShareStore()))
 }

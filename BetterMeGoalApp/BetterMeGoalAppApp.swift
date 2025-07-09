@@ -12,7 +12,8 @@ import Firebase
 struct BetterMeGoalAppApp: App {
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    private var diContainer = DIContainer()
+
+    var diContainer: DIContainer = DIContainer()
     
     var body: some Scene {
         WindowGroup {
@@ -21,6 +22,7 @@ struct BetterMeGoalAppApp: App {
             let createStore = diContainer.resolve(CreateStore.self)!
             let mainTabStore = diContainer.resolve(MainTabStore.self)!
             let goalStore = diContainer.resolve(GoalStore.self)!
+            let appState = diContainer.resolve(ShareStore.self)!
             
             RootScreen()
                 .environmentObject(Router())
@@ -28,7 +30,7 @@ struct BetterMeGoalAppApp: App {
                 .environmentObject(createStore)
                 .environmentObject(mainTabStore)
                 .environmentObject(goalStore)
-                .environmentObject(AppState())
+                .environmentObject(appState)
         }
     }
 }

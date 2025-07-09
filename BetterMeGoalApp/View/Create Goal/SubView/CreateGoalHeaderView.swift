@@ -49,5 +49,5 @@ struct CreateGoalHeaderView: View {
 
 #Preview {
     CreateGoalHeaderView(step: .detail)
-        .environmentObject(CreateStore(service: GoalService()))
+        .environmentObject(CreateStore(service: GoalService(), shareStore: ShareStore()))
 }

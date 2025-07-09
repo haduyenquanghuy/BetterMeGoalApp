@@ -11,6 +11,7 @@ struct CreateGoalFlowScreen: View {
     
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var createStore: CreateStore
+    @EnvironmentObject private var shareStore: ShareStore
     @FocusState private var isFocus: Bool
     @State private var currentStep: CreateGoalStep = .detail
     @State private var createdGoal = GoalModel()
@@ -42,8 +43,17 @@ struct CreateGoalFlowScreen: View {
             }
         }
         .customTabbar()
+        .overlay(loadingOverlay)
         .onAppear {
             createStore.send(.onAppear)
+        }
+    }
+    
+    @ViewBuilder var loadingOverlay: some View {
+        if shareStore.state.isLoading {
+            LoadingView()
+        } else {
+            EmptyView()
         }
     }
     
@@ -219,6 +229,6 @@ enum CreateGoalStep: Int, CaseIterable, Identifiable {
 #Preview {
     NavigationStack {
         CreateGoalFlowScreen()
-            .environmentObject(CreateStore(service: GoalService()))
+            .environmentObject(CreateStore(service: GoalService(), shareStore: ShareStore()))
     }
 }

@@ -37,9 +37,11 @@ final class CreateStore: ObservableObject {
     
     private var cancellables = Set<AnyCancellable>()
     private var createService: GoalServiceProtocol
+    private var shareStore: ShareStore
     
-    init(service: GoalServiceProtocol) {
+    init(service: GoalServiceProtocol, shareStore: ShareStore) {
         self.createService = service
+        self.shareStore = shareStore
     }
     
     func send(_ action: Action) {
@@ -120,10 +122,13 @@ final class CreateStore: ObservableObject {
             return
         }
         
+        shareStore.send(.setLoading(true))
+        
         Task {
             do {
                 let docId = try await createService.createGoal(goal: goal, userId: userId)
                 print("✅ Tạo thành công, ID: \(docId)")
+                shareStore.send(.setLoading(false))
                 send(.setIsShow(false))
             } catch {
                 print("❌ Lỗi khi tạo goal: \(error)")
