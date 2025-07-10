@@ -117,8 +117,11 @@ struct DetailGoalScreen: View {
             }
             .zIndex(-1)
         }
-        .padding(.bottom, 12)
     }
+    
+//    var progressGoalView: some View {
+//        
+//    }
     
     var body: some View {
         ScrollView {
@@ -135,15 +138,14 @@ struct DetailGoalScreen: View {
                 }
                 .offset(y: -48)
                 
-                
                 Spacer()
                 
             }
         }
-        .background(Color(.gray))
+        .background(Color(.background))
         .ignoresSafeArea(edges: .top)
         .onAppear {
-            //            goalStore.send(.requestDetailGoal(goalId: goalId))
+            goalStore.send(.requestDetailGoal(goalId: goalId))
         }
     }
 }

@@ -40,7 +40,7 @@ struct GoalItemView: View {
                 }
                 Spacer()
                 
-                GoalProgressView(progress: 0.625)
+                GoalStreakView(progress: 0.625)
             }
             .padding(.vertical, 12)
             .padding(.horizontal, 16)

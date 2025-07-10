@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct GoalProgressView: View {
+struct GoalStreakView: View {
     
     var progress: Double
     
@@ -37,5 +37,5 @@ struct GoalProgressView: View {
 }
 
 #Preview {
-    GoalProgressView(progress: 0.5)
+    GoalStreakView(progress: 0.5)
 }
