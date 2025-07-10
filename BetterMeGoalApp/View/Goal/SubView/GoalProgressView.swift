@@ -33,7 +33,7 @@ struct GoalProgressView: View {
                     
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Target")
-                            .avertaFont(size: 16)
+                            .avertaFont(size: 18)
                             .foregroundStyle(.ink80)
                         
                         Text("10.000h")
@@ -63,7 +63,7 @@ struct GoalProgressView: View {
                     VStack(spacing: 12) {
                         VStack(alignment: .leading, spacing: 0) {
                             Text("64%")
-                                .avertaFont(size: 16)
+                                .avertaFont(size: 18)
                                 .fontWeight(.semibold)
                                 .foregroundStyle(.ink100)
                             
