@@ -134,7 +134,13 @@ struct DetailGoalScreen: View {
                 VStack(spacing: 16) {
                     headerGoalView
                     
+                    GoalProgressView()
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 12)
+                        .background(Color.white)
+                    
                     goalStreakView
+                    
                 }
                 .offset(y: -48)
                 
