@@ -16,50 +16,6 @@ struct DetailGoalScreen: View {
         goalStore.state.currentGoal
     }
     
-    var goalStreakView: some View {
-        VStack(spacing: 0) {
-            ZStack(alignment: .bottom) {
-                Image(.imgFire)
-                    .resizeImageFit(width: 108)
-                    .padding(.bottom, 76)
-                
-                OutlineText(text: "5")
-                    .frame(height: 108)
-            }
-            .background {
-                Image(.bgStreak)
-                    .resizable()
-                    .scaledToFill()
-            }
-            
-            VStack(spacing: 4) {
-                Text("Streak")
-                    .avertaFont(size: 22)
-                    .fontWeight(.semibold)
-                    .foregroundStyle(.black)
-                
-                Text("Think of how far you’ll be a week from now if you stay consistent")
-                    .latoFont(size: 14)
-                    .fontWeight(.medium)
-                    .multilineTextAlignment(.center)
-                    .foregroundStyle(.ink60)
-            }
-            .padding(.horizontal, 32)
-            
-            HStack {
-                ForEach(DateTimeHelper.shared.daysOfWeeks, id: \.self) { day in
-                    DateLabelStreakView(text: day, isSelected: Bool.random())
-                    .frame(maxWidth: .infinity)
-                }
-            }
-            .padding(.top, 24)
-            .padding(.horizontal, 16)
-        }
-        .padding(.vertical, 12)
-        .frame(maxWidth: .infinity)
-        .background(Color.white)
-    }
-    
     var headerGoalView: some View {
         ZStack {
             VStack(alignment: .leading, spacing: 0) {
@@ -119,9 +75,48 @@ struct DetailGoalScreen: View {
         }
     }
     
-//    var progressGoalView: some View {
-//        
-//    }
+    var goalCommentView: some View {
+        HStack {
+            VStack(alignment:.leading, spacing: 8) {
+                Text("Keep flying!")
+                    .avertaFont(size: 16)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(Color.bluePrimary)
+                
+                Text("Whoa! You're not just ahead of schedule — you're outpacing time itself!")
+                    .avertaFont(size: 16)
+                    .foregroundStyle(Color.ink80)
+            }
+            
+            Spacer()
+            
+            Image(.imgCup)
+                .resizeImageFit(width: 96)
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 12)
+        .background(Color.white)
+    }
+    
+    var actionViews: some View {
+        
+            VStack {
+                MainButton(style: .secondary, title: "Start now") {
+                
+                }
+                .frame(height: 44)
+                .frame(maxWidth: .infinity)
+                
+                MainButton(title: "Create Task") {
+                
+                }
+                .frame(height: 44)
+                .frame(maxWidth: .infinity)
+            }
+            .padding(.vertical, 12)
+            .padding(.horizontal, 16)
+            .background(Color.white)
+        }
     
     var body: some View {
         ScrollView {
@@ -139,17 +134,35 @@ struct DetailGoalScreen: View {
                         .padding(.vertical, 12)
                         .background(Color.white)
                     
-                    goalStreakView
+                    GoalStreakView()
                     
+                    GoalDetailTimeView()
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 12)
+                        .background(Color.white)
+                    
+                    goalCommentView
+                    
+                    VStack(spacing: 8) {
+                        GoalChartView(title: "Total Days", currentText: "Current day", current: "12", total: "100", totalBarColor: .redPrimary.opacity(0.4), currentBarColor: .redPrimary)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 12)
+                            .background(Color.white)
+                        
+                        GoalChartView(title: "Target", currentText: "Finished", current: "123h", total: "10.000h", totalBarColor: .bluePrimary.opacity(0.4), currentBarColor: .bluePrimary)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 12)
+                            .background(Color.white)
+                    }
                 }
                 .offset(y: -48)
-                
-                Spacer()
-                
             }
         }
         .background(Color(.background))
         .ignoresSafeArea(edges: .top)
+        .safeAreaInset(edge: .bottom, content: {
+            actionViews
+        })
         .onAppear {
             goalStore.send(.requestDetailGoal(goalId: goalId))
         }

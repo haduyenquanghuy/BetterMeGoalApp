@@ -31,13 +31,13 @@ struct TimeDetailGoalView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .padding(.horizontal, 16)
-        .padding(.vertical, 8)
-        .background(Color.white)
-        .cornerRadius(8)
+        .padding(.vertical, 12)
+        .background(Color.ink5)
+        .cornerRadius(12)
     }
 }
 
-enum GoalTimeCategory {
+enum GoalTimeCategory: CaseIterable {
     case createTime
     case deadline
     case duration
