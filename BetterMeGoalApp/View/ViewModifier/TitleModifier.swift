@@ -17,10 +17,9 @@ struct TitleModifier: ViewModifier {
         VStack(alignment: alignment, spacing: 12) {
             HStack {
                 Text(title)
-                    .avertaFont(size: 18)
-                    .fontWeight(.regular)
-                    .foregroundStyle(.black)
-                    .padding(.vertical, 2)
+                    .font(.system(size: 20, weight: .bold, design: .rounded))
+                    .textCase(.uppercase)
+                    .foregroundStyle(.ink80)
                 
                 Spacer()
             }

@@ -38,8 +38,9 @@ class DIContainer {
             return CreateStore(service: createService, shareStore: shareStore)
         }
         
-        container.register(MainTabStore.self) { _ in
-            return MainTabStore()
+        container.register(MainTabStore.self) { resolver in
+            let shareStore = resolver.resolve(ShareStore.self)!
+            return MainTabStore(shareStore: shareStore)
         }
         
         container.register(GoalStore.self) { resolver in

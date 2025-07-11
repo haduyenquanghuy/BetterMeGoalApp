@@ -20,6 +20,11 @@ final class MainTabStore: ObservableObject {
     }
     
     @Published var state = State()
+    var shareStore: ShareStore
+    
+    init(shareStore: ShareStore) {
+        self.shareStore = shareStore
+    }
     
     func send(_ action: Action) {
         switch action {

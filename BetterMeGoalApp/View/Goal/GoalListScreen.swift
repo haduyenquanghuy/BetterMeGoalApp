@@ -10,6 +10,7 @@ import SwiftUI
 struct GoalListScreen: View {
     
     @EnvironmentObject private var goalStore: GoalStore
+    @EnvironmentObject private var shareStore: ShareStore
     @EnvironmentObject private var router: Router
     
     var body: some View {
@@ -20,6 +21,7 @@ struct GoalListScreen: View {
                         ForEach(goalStore.state.goals) { goal in
                             Button {
                                 if let goalId = goal.id {
+                                    shareStore.send(.showTabbar(false))
                                     router.goalRoutes.append(.detailGoal(goalId: goalId))
                                 }
                             } label: {
@@ -62,7 +64,7 @@ struct GoalListScreen: View {
                 }
             }
         }
-        .customTabbar()
+        .customNavigationBar()
         .navigationDestination(for: GoalRouter.self) { route in
             switch route {
                 case .detailGoal(goalId: let id):

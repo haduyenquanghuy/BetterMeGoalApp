@@ -42,7 +42,7 @@ struct CreateGoalFlowScreen: View {
                 }
             }
         }
-        .customTabbar()
+        .customNavigationBar()
         .overlay(loadingOverlay)
         .onAppear {
             createStore.send(.onAppear)

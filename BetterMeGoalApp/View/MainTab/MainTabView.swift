@@ -35,9 +35,11 @@ struct MainTabView: View {
             }
             .toolbar(.hidden, for: .tabBar)
             
-            MainTabbarView(selectedTab: $selectedTab, showCreate: $createStore.state.isShow)
-                .padding(.bottom, 24)
-                .background(Color.white)
+            if shareStore.state.isShowTabbar {
+                MainTabbarView(selectedTab: $selectedTab, showCreate: $createStore.state.isShow)
+                    .padding(.bottom, 24)
+                    .background(Color.white)
+            }
         }
         .ignoresSafeArea(.keyboard)
         .edgesIgnoringSafeArea(.bottom)
@@ -58,6 +60,6 @@ struct MainTabView: View {
 
 #Preview {
     MainTabView()
-        .environmentObject(MainTabStore())
+        .environmentObject(MainTabStore(shareStore: ShareStore()))
         .environmentObject(CreateStore(service: GoalService(), shareStore: ShareStore()))
 }

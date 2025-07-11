@@ -81,7 +81,7 @@ struct SelectGoalTypeScreen: View {
                     
                 }
             }
-            .customTabbar()
+            .customNavigationBar()
             .navigationDestination(for: CreateRoute.self) { route in
                 switch route {
                     case .create:

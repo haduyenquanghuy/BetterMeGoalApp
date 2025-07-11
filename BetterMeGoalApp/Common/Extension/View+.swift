@@ -14,7 +14,7 @@ extension View {
         padding(.horizontal, 16)
     }
     
-    func customTabbar() -> some View {
+    func customNavigationBar() -> some View {
         self.navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(.bluePrimary, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)

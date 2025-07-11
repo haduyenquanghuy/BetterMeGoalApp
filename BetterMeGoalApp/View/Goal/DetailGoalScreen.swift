@@ -10,6 +10,9 @@ import SwiftUI
 struct DetailGoalScreen: View {
     
     @EnvironmentObject var goalStore: GoalStore
+    @EnvironmentObject var shareStore: ShareStore
+    @EnvironmentObject var router: Router
+    
     var goalId: String
     
     var goal: GoalModel {
@@ -99,70 +102,94 @@ struct DetailGoalScreen: View {
     }
     
     var actionViews: some View {
-        
-            VStack {
-                MainButton(style: .secondary, title: "Start now") {
+        VStack {
+            MainButton(style: .secondary, title: "Start now") {
                 
-                }
-                .frame(height: 44)
-                .frame(maxWidth: .infinity)
-                
-                MainButton(title: "Create Task") {
-                
-                }
-                .frame(height: 44)
-                .frame(maxWidth: .infinity)
             }
-            .padding(.vertical, 12)
-            .padding(.horizontal, 16)
-            .background(Color.white)
+            .frame(height: 44)
+            .frame(maxWidth: .infinity)
+            
+            MainButton(title: "Create Task") {
+                
+            }
+            .frame(height: 44)
+            .frame(maxWidth: .infinity)
         }
+        .padding(.vertical, 12)
+        .padding(.horizontal, 16)
+        .background(Color.white)
+    }
     
     var body: some View {
-        ScrollView {
-            VStack(spacing: 0) {
-                Image(goal.category?.cardImage ?? .bearWorking)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: UIScreen.screenWidth, height: UIScreen.screenWidth * 225 / 375)
-                
-                VStack(spacing: 16) {
-                    headerGoalView
+        VStack(spacing: 0) {
+            ScrollView {
+                VStack(spacing: 0) {
+                    Image(goal.category?.cardImage ?? .bearWorking)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: UIScreen.screenWidth, height: UIScreen.screenWidth * 225 / 375)
                     
-                    GoalProgressView()
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 12)
-                        .background(Color.white)
-                    
-                    GoalStreakView()
-                    
-                    GoalDetailTimeView()
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 12)
-                        .background(Color.white)
-                    
-                    goalCommentView
-                    
-                    VStack(spacing: 8) {
-                        GoalChartView(title: "Total Days", currentText: "Current day", current: "12", total: "100", totalBarColor: .redPrimary.opacity(0.4), currentBarColor: .redPrimary)
+                    VStack(spacing: 20) {
+                        headerGoalView
+                        
+                        GoalProgressView()
                             .padding(.horizontal, 16)
                             .padding(.vertical, 12)
                             .background(Color.white)
                         
-                        GoalChartView(title: "Target", currentText: "Finished", current: "123h", total: "10.000h", totalBarColor: .bluePrimary.opacity(0.4), currentBarColor: .bluePrimary)
+                        GoalStreakView()
+                        
+                        GoalDetailTimeView()
                             .padding(.horizontal, 16)
                             .padding(.vertical, 12)
                             .background(Color.white)
+                        
+                        goalCommentView
+                        
+                        VStack(spacing: 8) {
+                            GoalChartView(title: "Total Days", currentText: "Current day", current: "12", total: "100", totalBarColor: .redPrimary.opacity(0.4), currentBarColor: .redPrimary)
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 12)
+                                .background(Color.white)
+                            
+                            GoalChartView(title: "Target", currentText: "Finished", current: "123h", total: "10.000h", totalBarColor: .bluePrimary.opacity(0.4), currentBarColor: .bluePrimary)
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 12)
+                                .background(Color.white)
+                        }
                     }
+                    .offset(y: -48)
                 }
-                .offset(y: -48)
             }
+            
+            actionViews
+                .padding(.bottom, 16)
         }
         .background(Color(.background))
-        .ignoresSafeArea(edges: .top)
-        .safeAreaInset(edge: .bottom, content: {
-            actionViews
-        })
+        .ignoresSafeArea(edges: .vertical)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    router.goalRoutes.removeLast()
+                    shareStore.send(.showTabbar(true))
+                    
+                } label: {
+                    Image(.icBackRound)
+                        .resizeImageFit(width: 32)
+                }
+            }
+            
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    
+                } label: {
+                    Image(.icEditRound)
+                        .resizeImageFit(width: 32)
+                }
+            }
+        }
+        .navigationBarBackButtonHidden(true)
+        .toolbar(.hidden, for: .tabBar)
         .onAppear {
             goalStore.send(.requestDetailGoal(goalId: goalId))
         }
@@ -177,23 +204,23 @@ enum DetaiGoalAction: CaseIterable {
     
     var image: ImageResource {
         switch self {
-        case .overview:
-                .icChart
-        case .history:
-                .icBook
-        case .journey:
-                .icGoalNew
+            case .overview:
+                    .icChart
+            case .history:
+                    .icBook
+            case .journey:
+                    .icGoalNew
         }
     }
     
     var title: String {
         switch self {
-        case .overview:
-            "Overview"
-        case .history:
-            "History"
-        case .journey:
-            "Journey"
+            case .overview:
+                "Overview"
+            case .history:
+                "History"
+            case .journey:
+                "Journey"
         }
     }
 }
