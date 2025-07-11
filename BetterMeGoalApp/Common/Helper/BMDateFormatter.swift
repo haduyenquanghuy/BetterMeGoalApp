@@ -17,6 +17,7 @@ final class BMDateFormatter {
         case dateOnly = "dd/MM/yyyy"
         case timeOnly = "HH:mm"
         case fullWithMonthName = "dd MMM yyyy HH:mm"
+        case monthDateYear = "MMM d, yyyy"
         // Có thể thêm các format khác ở đây
     }
 

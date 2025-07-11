@@ -9,6 +9,8 @@ import SwiftUI
 
 struct GoalProgressView: View {
     
+    let goal: GoalModel
+    
     var body: some View {
         HStack(spacing: 12) {
             VStack(alignment: .leading) {
@@ -27,7 +29,7 @@ struct GoalProgressView: View {
                         .avertaFont(size: 18)
                         .foregroundStyle(.ink80)
                     
-                    Text("10.000h")
+                    Text(goal.totalTargetLbl)
                         .avertaFont(size: 24)
                         .fontWeight(.semibold)
                 }
@@ -96,5 +98,5 @@ struct GoalProgressView: View {
 }
 
 #Preview {
-    GoalProgressView()
+    GoalProgressView(goal: GoalModel())
 }

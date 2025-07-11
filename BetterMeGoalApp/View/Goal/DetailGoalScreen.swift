@@ -21,6 +21,7 @@ struct DetailGoalScreen: View {
     
     var headerGoalView: some View {
         ZStack {
+            
             VStack(alignment: .leading, spacing: 0) {
                 Image(.imgTreeAvatar)
                     .resizable()
@@ -132,14 +133,14 @@ struct DetailGoalScreen: View {
                     VStack(spacing: 20) {
                         headerGoalView
                         
-                        GoalProgressView()
+                        GoalProgressView(goal: goal)
                             .padding(.horizontal, 16)
                             .padding(.vertical, 12)
                             .background(Color.white)
                         
                         GoalStreakView()
                         
-                        GoalDetailTimeView()
+                        GoalDetailTimeView(goal: goal)
                             .padding(.horizontal, 16)
                             .padding(.vertical, 12)
                             .background(Color.white)

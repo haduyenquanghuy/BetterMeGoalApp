@@ -53,6 +53,16 @@ extension GoalModel {
         
         return "\(totalTarget) \(type.title)"
     }
+    
+    var createAtInterval: TimeInterval? {
+        guard let createdAt = createdAt else { return nil }
+        return DateTimeHelper.shared.timeInterval(from: createdAt)
+    }
+    
+    var deadlineInterval: TimeInterval? {
+        guard let deadline = deadline else { return nil }
+        return DateTimeHelper.shared.timeInterval(from: deadline, formatStr: .fullWithMonthName)
+    }
 }
 
 struct SubTask: Identifiable, Codable {

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Firebase
 
 final class DateTimeHelper {
     
@@ -33,6 +34,49 @@ final class DateTimeHelper {
         symbols = Array(symbols[firstWeekdayIndex...] + symbols[..<firstWeekdayIndex])
 
         return symbols
+    }
+    
+    func timeInterval(from dateString: String, formatStr: BMDateFormatter.FormatStyle) -> TimeInterval? {
+        let formatter = DateFormatter()
+        formatter.dateFormat = formatStr.rawValue
+        formatter.locale = Locale(identifier: "vi_VN")
+        return formatter.date(from: dateString)?.timeIntervalSince1970
+    }
+    
+    func timeInterval(from timestamp: Timestamp) -> TimeInterval {
+        return timestamp.dateValue().timeIntervalSince1970
+    }
+    
+    func daysBetween(_ from: TimeInterval, _ to: TimeInterval) -> Int {
+        let secondsPerDay: TimeInterval = 86400
+        return Int((to - from) / secondsPerDay)
+    }
+    
+    func convertDateString(_ input: String, from oldFormat: BMDateFormatter.FormatStyle, to newFormat: BMDateFormatter.FormatStyle) -> String? {
+        
+        let locale = Locale(identifier: "vi_VN")
+        
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = oldFormat.rawValue
+        inputFormatter.locale = locale
+
+        let outputFormatter = DateFormatter()
+        outputFormatter.dateFormat = newFormat.rawValue
+        outputFormatter.locale = locale
+
+        if let date = inputFormatter.date(from: input) {
+            return outputFormatter.string(from: date)
+        } else {
+            return nil
+        }
+    }
+    
+    func formatDate(from timeInterval: TimeInterval, with format: BMDateFormatter.FormatStyle) -> String {
+        let date = Date(timeIntervalSince1970: timeInterval)
+        let formatter = DateFormatter()
+        formatter.dateFormat = format.rawValue
+        formatter.locale = Locale(identifier: "vi_VN")
+        return formatter.string(from: date)
     }
 }
 
