@@ -21,8 +21,11 @@ struct GoalListScreen: View {
                         ForEach(goalStore.state.goals) { goal in
                             Button {
                                 if let goalId = goal.id {
-                                    shareStore.send(.showTabbar(false))
-                                    router.goalRoutes.append(.detailGoal(goalId: goalId))
+                                    withAnimation(.linear(duration: 0.16)) {
+                                        shareStore.send(.showTabbar(false))
+                                    } completion: {
+                                        router.goalRoutes.append(.detailGoal(goalId: goalId))
+                                    }
                                 }
                             } label: {
                                 GoalItemView(goal: goal)

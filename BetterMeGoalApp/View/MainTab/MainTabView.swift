@@ -18,31 +18,30 @@ struct MainTabView: View {
     @State private var selectedTab: TabSection = .goal
     
     var body: some View {
-        ZStack(alignment: .bottom) {
-            TabView(selection: $selectedTab) {
-                
-                NavigationStack(path: $router.goalRoutes) { GoalListScreen() }
-                    .tag(TabSection.goal)
-                
-                NavigationStack { DairyView() }
-                    .tag(TabSection.dairy)
-                
-                NavigationStack { CompleteView() }
-                    .tag(TabSection.complete)
-                
-                NavigationStack { ProfileView() }
-                    .tag(TabSection.profile)
-            }
-            .toolbar(.hidden, for: .tabBar)
+        TabView(selection: $selectedTab) {
             
-            if shareStore.state.isShowTabbar {
-                MainTabbarView(selectedTab: $selectedTab, showCreate: $createStore.state.isShow)
-                    .padding(.bottom, 24)
-                    .background(Color.white)
-            }
+            NavigationStack(path: $router.goalRoutes) { GoalListScreen() }
+                .tag(TabSection.goal)
+            
+            NavigationStack { DairyView() }
+                .tag(TabSection.dairy)
+            
+            NavigationStack { CompleteView() }
+                .tag(TabSection.complete)
+            
+            NavigationStack { ProfileView() }
+                .tag(TabSection.profile)
         }
+        .toolbar(.hidden, for: .tabBar)
         .ignoresSafeArea(.keyboard)
         .edgesIgnoringSafeArea(.bottom)
+        .overlay(alignment: .bottom) {
+            if shareStore.state.isShowTabbar {
+                MainTabbarView(selectedTab: $selectedTab, showCreate: $createStore.state.isShow)
+                    .background(Color.white)
+                    .transition(.asymmetric(insertion: .move(edge: .bottom), removal: .opacity))
+            }
+        }
         .overlay(loadingOverlay)
         .fullScreenCover(isPresented: $createStore.state.isShow) {
             SelectGoalTypeScreen(isShow: $createStore.state.isShow)
@@ -55,7 +54,7 @@ struct MainTabView: View {
         } else {
             EmptyView()
         }
-    } 
+    }
 }
 
 #Preview {

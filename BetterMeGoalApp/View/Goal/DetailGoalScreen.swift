@@ -170,8 +170,11 @@ struct DetailGoalScreen: View {
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
-                    router.goalRoutes.removeLast()
-                    shareStore.send(.showTabbar(true))
+                    withAnimation(.linear(duration: 0.16)) {
+                        shareStore.send(.showTabbar(true))
+                    } completion: {
+                        router.goalRoutes.removeLast()
+                    }
                     
                 } label: {
                     Image(.icBackRound)
