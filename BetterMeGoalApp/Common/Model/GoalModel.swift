@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseFirestore
 
-struct GoalModel: Identifiable, Codable {
+struct GoalModel: Identifiable, Codable, Equatable, Hashable {
     
     @DocumentID var id: String?
     @ServerTimestamp var createdAt: Timestamp?
@@ -65,7 +65,7 @@ extension GoalModel {
     }
 }
 
-struct SubTask: Identifiable, Codable {
+struct SubTask: Identifiable, Codable, Equatable, Hashable {
     let id: UUID
     var title: String
     var target: Double
@@ -73,7 +73,7 @@ struct SubTask: Identifiable, Codable {
     var isDone: Bool
 }
 
-struct ProgressLog: Identifiable, Codable {
+struct ProgressLog: Identifiable, Codable, Equatable, Hashable {
     let id: UUID
     let date: Date
     let amount: Double

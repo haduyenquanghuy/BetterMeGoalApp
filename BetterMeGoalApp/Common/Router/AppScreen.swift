@@ -26,6 +26,7 @@ enum CreateRoute: Hashable {
 
 enum GoalRouter: Hashable {
     case detailGoal(goalId: String)
+    case creatTask(goal: GoalModel)
 }
 
 class Router: ObservableObject {
