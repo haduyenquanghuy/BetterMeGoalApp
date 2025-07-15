@@ -73,7 +73,7 @@ struct GoalListScreen: View {
                 case .detailGoal(goalId: let id):
                     DetailGoalScreen(goalId: id)
                 case .creatTask(goal: let goal):
-                    CreateTaskView(goal: goal)
+                    CreateTaskScreen(goal: goal)
             }
         }
         .onAppear {

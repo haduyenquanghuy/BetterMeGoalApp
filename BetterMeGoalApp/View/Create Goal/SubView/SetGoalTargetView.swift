@@ -129,4 +129,5 @@ struct SetGoalTargetView: View {
         .frame(maxHeight: .infinity)
         .background(Color.ink5)
         .environmentObject(CreateStore(service: GoalService(), shareStore: ShareStore()))
+        .environmentObject(ShareStore())
 }

@@ -75,7 +75,7 @@ struct CreateGoalFlowScreen: View {
                                         }
                                     }
                                     
-                                    if step ==  .deadline {
+                                    if step == .deadline {
                                         Button {
                                             createdGoal.deadline = nil
                                             handleNext(step: step)

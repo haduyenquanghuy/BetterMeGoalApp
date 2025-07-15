@@ -18,7 +18,7 @@ struct SetGoalDeadlineView: View {
         VStack {
             HStack(spacing: 0) {
                 HStack(spacing: 12) {
-                    Image(.icCalendar)
+                    Image(.icCalendar1)
                         .resizeImageFit(width: 18)
                     
                     if let selectedDate = selectedDate {

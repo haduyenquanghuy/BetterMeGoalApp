@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CreateTaskView: View {
+struct CreateTaskByTimeView: View {
     
     let totalDuration: TimeInterval = 120 * 60
     
@@ -15,6 +15,8 @@ struct CreateTaskView: View {
     @State var currentValue: Double = 0
     @State var angle: Double = 0
     @State var timeDuration: TimeInterval = 0
+    
+    @EnvironmentObject var router: Router
     
     var timeLbl: String {
        "\(Int(timeDuration / 60)):00"
@@ -67,13 +69,14 @@ struct CreateTaskView: View {
                 MainButton(height: 44, title: "Start now") {
                     
                 }
+                .padding(.bottom, 12)
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 24)
             .background(Color.white)
             .cornerRadius(24)
             .padding(.horizontal, 24)
-            .padding(.top, 24)
+            .padding(.top, 36)
             
             Spacer()
         }
@@ -89,13 +92,12 @@ struct CreateTaskView: View {
             ToolbarItem(placement: .topBarLeading) {
                 
                 Button {
-                 
+                    router.goalRoutes.removeLast()
                 } label: {
                     Image(.icBack)
                         .resizeImageFit(width: 28, isOriginal: false)
                         .foregroundStyle(Color.white)
                 }
-                
             }
         }
         .customNavigationBar()
@@ -106,11 +108,10 @@ struct CreateTaskView: View {
             timeDuration = totalDuration * currentValue / 100
         }
     }
-    
 }
 
 #Preview {
     NavigationStack {
-        CreateTaskView(goal: GoalModel(title: "Buy a new house", description: "Save money to buy a new house"))
+        CreateTaskByTimeView(goal: GoalModel(title: "Buy a new house", description: "Save money to buy a new house"))
     }
 }
