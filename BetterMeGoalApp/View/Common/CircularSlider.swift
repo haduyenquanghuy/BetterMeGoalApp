@@ -138,6 +138,7 @@ public struct CircularSlider: View {
                             change(location: value.location)
                         }
                         .onEnded { value in
+                            snapCurrentValueToNearest5Minutes()
                             onValueSelection?(currentValue)
                         }
                 )
@@ -157,6 +158,14 @@ public struct CircularSlider: View {
             currentValue = min(maxValue, max(currentValue, minValue))
             angle = valueToAngle(value: currentValue)
         }
+    }
+    
+    private func snapCurrentValueToNearest5Minutes() {
+        let minutes = currentValue / 100 * 120
+        let snappedMinutes = floor(minutes / 5) * 5
+        let snappedValue = (snappedMinutes / 120) * 100
+        currentValue = Double(round(100 * snappedValue) / 100)
+        angle = valueToAngle(value: currentValue)
     }
     
     /// Updates the angle and the value of the slider

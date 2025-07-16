@@ -6,20 +6,28 @@
 //
 
 import SwiftUI
+import Combine
 
 struct CreateTaskByTimeView: View {
     
-    let totalDuration: TimeInterval = 120 * 60
+    @EnvironmentObject var router: Router
     
+    let totalDuration: TimeInterval = 120 * 60
     let goal: GoalModel
+   
     @State var currentValue: Double = 0
     @State var angle: Double = 0
     @State var timeDuration: TimeInterval = 0
+    @State var isRunning: Bool = false
     
-    @EnvironmentObject var router: Router
+    @State var timer: Timer.TimerPublisher = Timer.publish(every: 1, on: .main, in: .common)
+    @State var connectedTimer: Cancellable? = nil
     
     var timeLbl: String {
-       "\(Int(timeDuration / 60)):00"
+        let totalSeconds = Int(timeDuration.rounded())
+        let hours = totalSeconds / 60
+        let minutes = totalSeconds % 60
+        return String(format: "%02d:%02d", hours, minutes)
     }
     
     var body: some View {
@@ -40,10 +48,10 @@ struct CreateTaskByTimeView: View {
                 
                 CircularSlider(currentValue: $currentValue,
                                angle: $angle,
-                               knobRadius: 10,
+                               knobRadius: isRunning ? 2.5 : 10,
                                radius: (UIScreen.screenWidth - 64.0 - 16.0) / 2.0,
-                               progressLineColor: Color.bluePrimary,
-                               trackColor: Color.bluePrimary.opacity(0.1),
+                               progressLineColor: isRunning ? Color.redPrimary : Color.bluePrimary,
+                               trackColor: isRunning ?  Color.redPrimary.opacity(0.1) : Color.bluePrimary.opacity(0.1),
                                lineWidth: 12,
                                showsCurrentValueAsText: false) {
                     timeDuration = totalDuration * $0 / 100
@@ -59,15 +67,21 @@ struct CreateTaskByTimeView: View {
                             .avertaFont(size: 40)
                             .fontWeight(.semibold)
                             .foregroundStyle(.black)
+                            .contentTransition(.numericText(countsDown: false))
                         
                         Text("Ready?")
                             .avertaFont(size: 14)
                             .foregroundStyle(.secondary)
                     }
                 }
+                .disabled(isRunning)
                 
                 MainButton(height: 44, title: "Start now") {
-                    
+                    withAnimation(.linear(duration: 0.25)) {
+                        isRunning = true
+                    } completion: {
+                        startTimer()
+                    }
                 }
                 .padding(.bottom, 12)
             }
@@ -79,6 +93,13 @@ struct CreateTaskByTimeView: View {
             .padding(.top, 36)
             
             Spacer()
+        }
+        .onReceive(timer) { _ in
+            withAnimation(.linear(duration: 1)) {
+                angle -= 0.05
+                timeDuration -= 1
+            }
+            currentValue -= (5.0/360)
         }
         .background(Color.background)
         .toolbar {
@@ -107,6 +128,11 @@ struct CreateTaskByTimeView: View {
             }
             timeDuration = totalDuration * currentValue / 100
         }
+    }
+    
+    func startTimer() {
+        self.timer = Timer.publish(every: 1, on: .main, in: .common)
+        self.connectedTimer = self.timer.connect()
     }
 }
 

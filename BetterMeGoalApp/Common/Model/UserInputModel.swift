@@ -31,3 +31,28 @@ class UserInputModel: ObservableObject {
         String(number)
     }
 }
+
+class UserInputNumberModel: ObservableObject  {
+    
+    @Published var inputText: String?
+    @Published var number: Int = 0
+    
+    func sync() {
+        number = inputText.flatMap { Int($0) } ?? 0
+    }
+    
+    func add(with value: Int) {
+        number += value
+        inputText = String(number)
+    }
+    
+    func sub(with value: Int) {
+        number = max(0, number - value)
+        inputText = String(number)
+    }
+    
+    func refresh() {
+        number = 0
+        inputText = ""
+    }
+}

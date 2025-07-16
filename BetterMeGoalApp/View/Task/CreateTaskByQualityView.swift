@@ -12,7 +12,7 @@ struct CreateTaskByQualityView: View {
     let goal: GoalModel
     @FocusState var isFocus: Bool
     @State var isEdit: Bool = false
-    @StateObject var userInput = UserInputModel()
+    @StateObject var userInput = UserInputNumberModel()
     @EnvironmentObject private var router: Router
     
     var body: some View {
@@ -32,12 +32,15 @@ struct CreateTaskByQualityView: View {
                 }
                 
                 HStack(spacing: 8) {
-                    EditValueButtonView(image: .icPlusSign)
+                    EditValueButtonView(image: .icPlusSign) {
+                        userInput.add(with: 1)
+                    }
+                    .disabled(isEdit)
                     
                     VStack(spacing: isEdit ? 12 : 8) {
                         
                         if isEdit {
-                            TextField(text: $userInput.inputText, label: {
+                            TextField(text: $userInput.inputText.unwrapped, label: {
                                 Text("Set your target")
                                     .avertaFont(size: 14)
                             })
@@ -53,7 +56,9 @@ struct CreateTaskByQualityView: View {
                             .padding(.horizontal, 12)
                             .focused($isFocus)
                             .keyboardType(.numberPad)
-                            
+                            .onChange(of: userInput.inputText) {
+                                userInput.sync()
+                            }
                       
                         } else {
                             Text("\(userInput.number)")
@@ -77,7 +82,10 @@ struct CreateTaskByQualityView: View {
                             .strokeBorder(Color.bluePrimary, lineWidth: isEdit ? 2 : 0)
                     }
                     
-                    EditValueButtonView(image: .icMinusSign)
+                    EditValueButtonView(image: .icMinusSign) {
+                        userInput.sub(with: 1)
+                    }
+                    .disabled(isEdit)
                 }
                 .padding(.top, 32)
                 
@@ -101,7 +109,7 @@ struct CreateTaskByQualityView: View {
                     }
                     
                     Button {
-               
+                        userInput.refresh()
                     } label: {
                         HStack(spacing: 8) {
                             Text("Delete")
@@ -147,6 +155,15 @@ struct CreateTaskByQualityView: View {
                         .foregroundStyle(Color.white)
                 }
             }
+            
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                
+                Button("Done") {
+                    isEdit = false
+                    isFocus = false
+                }
+            }
         }
         .customNavigationBar()
     }
@@ -155,10 +172,11 @@ struct CreateTaskByQualityView: View {
 struct EditValueButtonView : View {
     
     var image: ImageResource
+    var action: () -> ()
     
     var body: some View {
         Button {
-            
+            action()
         } label: {
             HStack {
                 Image(image)
