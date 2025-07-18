@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import Lottie
 
 struct CreateTaskByTimeView: View {
     
@@ -22,6 +23,8 @@ struct CreateTaskByTimeView: View {
     
     @State var timer: Timer.TimerPublisher = Timer.publish(every: 1, on: .main, in: .common)
     @State var connectedTimer: Cancellable? = nil
+    
+    @State var playbackMode = LottiePlaybackMode.paused(at: .time(0))
     
     var timeLbl: String {
         let totalSeconds = Int(timeDuration.rounded())
@@ -58,10 +61,18 @@ struct CreateTaskByTimeView: View {
                 }
                 .overlay {
                     VStack(spacing: 8) {
-                        Text("Set Timer")
-                            .avertaFont(size: 14)
-                            .fontWeight(.semibold)
-                            .foregroundStyle(.secondary)
+                        
+                        HStack(spacing: 8) {
+                            LottieView(animation: .named("hourglass"))
+                                .playbackMode(playbackMode)
+                                .frame(width: 48, height: 48)
+                                .frame(width: 24, height: 24)
+                            
+                            Text(isRunning ? "Focus" : "Set Target")
+                                .avertaFont(size: 16)
+                                .fontWeight(.semibold)
+                                .foregroundStyle(Color.ink100)
+                        }
                         
                         Text(timeLbl)
                             .avertaFont(size: 40)
@@ -69,21 +80,27 @@ struct CreateTaskByTimeView: View {
                             .foregroundStyle(.black)
                             .contentTransition(.numericText(countsDown: false))
                         
-                        Text("Ready?")
-                            .avertaFont(size: 14)
+                        Text(isRunning ? "Running..." : "Ready?")
+                            .avertaFont(size: 16)
+                            .fontWeight(.semibold)
                             .foregroundStyle(.secondary)
                     }
                 }
                 .disabled(isRunning)
                 
-                MainButton(height: 44, title: "Start now") {
-                    withAnimation(.linear(duration: 0.25)) {
-                        isRunning = true
-                    } completion: {
-                        startTimer()
-                    }
-                }
-                .padding(.bottom, 12)
+                SlideButton("Slide to start", styling: .init(indicatorColor: Color.bluePrimary, textHiddenBehindIndicator: false), action: sliderCallback)
+                    .padding(.bottom, 12)
+                
+                
+//                MainButton(height: 44, title: "Start now") {
+//                    withAnimation(.linear(duration: 0.25)) {
+//                        isRunning = true
+//                        playbackMode = .playing(.fromProgress(0, toProgress: 1, loopMode: .loop))
+//                    } completion: {
+//                        startTimer()
+//                    }
+//                }
+//                .padding(.bottom, 12)
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 24)
@@ -127,6 +144,17 @@ struct CreateTaskByTimeView: View {
                 currentValue = 25
             }
             timeDuration = totalDuration * currentValue / 100
+        }
+    }
+    
+    private func sliderCallback() async {
+        try? await Task.sleep(for: .seconds(2))
+        
+        withAnimation(.linear(duration: 0.25)) {
+            isRunning = true
+            playbackMode = .playing(.fromProgress(0, toProgress: 1, loopMode: .loop))
+        } completion: {
+            startTimer()
         }
     }
     
