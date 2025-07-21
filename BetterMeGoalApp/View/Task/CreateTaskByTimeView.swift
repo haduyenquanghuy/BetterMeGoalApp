@@ -88,8 +88,20 @@ struct CreateTaskByTimeView: View {
                 }
                 .disabled(isRunning)
                 
-                SlideButton("Slide to start", styling: .init(indicatorColor: Color.bluePrimary, textHiddenBehindIndicator: false), action: sliderCallback)
-                    .padding(.bottom, 12)
+                SlideToConfirm(config: SlideToConfirm.Config(
+                    idleText: "Swipe to start",
+                    onSwipeText: "Let's go!",
+                    confirmationText: "You can do it",
+                    tint: Color.bluePrimary,
+                    foregroundColor: .white
+                )) {
+                    withAnimation(.linear(duration: 0.25)) {
+                        isRunning = true
+                        playbackMode = .playing(.fromProgress(0, toProgress: 1, loopMode: .loop))
+                    } completion: {
+                        startTimer()
+                    }
+                }
                 
                 
 //                MainButton(height: 44, title: "Start now") {
