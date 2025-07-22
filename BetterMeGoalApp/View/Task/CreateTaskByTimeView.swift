@@ -20,6 +20,7 @@ struct CreateTaskByTimeView: View {
     @State var angle: Double = 0
     @State var timeDuration: TimeInterval = 0
     @State var isRunning: Bool = false
+    @State var isPause: Bool = false
     
     @State var timer: Timer.TimerPublisher = Timer.publish(every: 1, on: .main, in: .common)
     @State var connectedTimer: Cancellable? = nil
@@ -88,31 +89,53 @@ struct CreateTaskByTimeView: View {
                 }
                 .disabled(isRunning)
                 
-                SlideToConfirm(config: SlideToConfirm.Config(
-                    idleText: "Swipe to start",
-                    onSwipeText: "Let's go!",
-                    confirmationText: "You can do it",
-                    tint: Color.bluePrimary,
-                    foregroundColor: .white
-                )) {
-                    withAnimation(.linear(duration: 0.25)) {
-                        isRunning = true
-                        playbackMode = .playing(.fromProgress(0, toProgress: 1, loopMode: .loop))
-                    } completion: {
-                        startTimer()
+                if isRunning {
+                    HStack(spacing:24) {
+                        CircleButton(image: .icVolumnMute) {
+                            
+                        }
+                        
+                        Button {
+                            if isPause {
+                                playbackMode = .playing(.fromProgress(0, toProgress: 1, loopMode: .loop))
+                            } else {
+                                playbackMode = .paused(at: .time(0))
+                            }
+                            isPause.toggle()
+                        } label: {
+                            Image(systemName: isPause ? "play.fill" : "pause.fill")
+                                .resizeImageFit(width: 24)
+                                .frame(width: 80, height: 80)
+                                .foregroundStyle(.ink80)
+                                .background(Color(hex: "F1F3F5"))
+                                .cornerRadius(40)
+                                .contentTransition(.symbolEffect(.replace))
+                        }
+                        
+                        CircleButton(image: .icExpand) {
+                            
+                        }
                     }
+                    .transition(.flip)
+                    
+                } else {
+                    SlideToConfirmButton(config: SlideToConfirmButton.Config(
+                        idleText: "Swipe to start",
+                        onSwipeText: "Let's go!",
+                        confirmationText: "You can do it",
+                        tint: Color.bluePrimary,
+                        foregroundColor: .white
+                    )) {
+                        withAnimation(.linear(duration: 0.24).delay(0.36)) {
+                            isRunning = true
+                            playbackMode = .playing(.fromProgress(0, toProgress: 1, loopMode: .loop))
+                        } completion: {
+                            startTimer()
+                        }
+                    }
+                    .padding(.bottom, 12)
+                    .transition(.reverseFlip)
                 }
-                
-                
-//                MainButton(height: 44, title: "Start now") {
-//                    withAnimation(.linear(duration: 0.25)) {
-//                        isRunning = true
-//                        playbackMode = .playing(.fromProgress(0, toProgress: 1, loopMode: .loop))
-//                    } completion: {
-//                        startTimer()
-//                    }
-//                }
-//                .padding(.bottom, 12)
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 24)
@@ -121,14 +144,24 @@ struct CreateTaskByTimeView: View {
             .padding(.horizontal, 24)
             .padding(.top, 36)
             
+            if isRunning {
+                MainButton(style: .underline, title: "Give up") {
+                }
+                .padding(.horizontal, 24)
+                .padding(.top, 8)
+                .transition(.push(from: .bottom))
+            }
+            
             Spacer()
         }
         .onReceive(timer) { _ in
-            withAnimation(.linear(duration: 1)) {
-                angle -= 0.05
-                timeDuration -= 1
+            if !isPause {
+                withAnimation(.linear(duration: 1)) {
+                    angle -= 0.05
+                    timeDuration -= 1
+                }
+                currentValue -= (5.0/360)
             }
-            currentValue -= (5.0/360)
         }
         .background(Color.background)
         .toolbar {

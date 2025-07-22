@@ -1,14 +1,13 @@
 //
-//  SlideToConfirmButton.swift
-//  BetterMeGoalApp
+//  SlideToConfirm.swift
+//  SlideControl
 //
-//  Created by Ha Duyen Quang Huy on 21/7/25.
+//  Created by Balaji Venkatesh on 07/04/25.
 //
 
-import Foundation
 import SwiftUI
 
-struct SlideToConfirm: View {
+struct SlideToConfirmButton: View {
     var config: Config
     var onSwiped: () -> ()
     /// View Properties
@@ -26,15 +25,15 @@ struct SlideToConfirm: View {
             ZStack(alignment: .leading) {
                 Capsule()
                     .fill(
-                        .gray.opacity(0.12)
-                        .shadow(.inner(color: .black.opacity(0.16), radius: 10))
+                        .gray.opacity(0.25)
+                        .shadow(.inner(color: .black.opacity(0.2), radius: 10))
                     )
                 
                 /// Tint Capsule
                 let extraCapsuleWidth = (size.width - knobSize) * progress
                 
                 Capsule()
-                    .fill(config.tint.gradient)
+                    .fill(config.tint)
                     .frame(width: knobSize + extraCapsuleWidth, height: knobSize)
                 
                 LeadingTextView(size, progress: progress)
@@ -49,10 +48,10 @@ struct SlideToConfirm: View {
         }
         /// Modify this as per your needs!
         .frame(height: config.height)
-//        .containerRelativeFrame(.horizontal) { value, _ in
-//            let ratio: CGFloat = isCompleted ? 0.5 : 0.8
-//            return value * ratio
-//        }
+        .containerRelativeFrame(.horizontal) { value, _ in
+            let ratio: CGFloat = isCompleted ? 0.5 : 0.8
+            return value * ratio
+        }
         .frame(maxWidth: 300)
         /// Disabling User Interaction When swipe confirmed
         .allowsHitTesting(!isCompleted)
@@ -61,16 +60,15 @@ struct SlideToConfirm: View {
     /// Knob View
     func KnobView(_ size: CGSize, progress: CGFloat, maxLimit: CGFloat) -> some View {
         Circle()
-            .fill(SwiftUI.BackgroundStyle.background)
+            .fill(Color.white)
             .padding(config.knobPadding)
             .frame(width: size.height, height: size.height)
             .overlay {
-                Image(systemName: "chevron.right")
-                    .font(.title3.bold())
-                    .foregroundStyle(.bluePrimary)
+                Image(.icArrowRight2)
+                    .resizeImageFit(width: 28)
             }
             .contentShape(.circle)
-//            .scaleEffect(isCompleted ? 0.6 : 1, anchor: .center)
+            .scaleEffect(isCompleted ? 0.6 : 1, anchor: .center)
             .offset(x: isCompleted ? maxLimit : offsetX)
             .gesture(
                 DragGesture()
@@ -98,7 +96,6 @@ struct SlideToConfirm: View {
     func ShimmerTextView(_ size: CGSize, progress: CGFloat) -> some View {
         Text(isCompleted ? config.confirmationText : config.idleText)
             .avertaFont(size: 18)
-            .fontWeight(.semibold)
             .foregroundStyle(.gray.opacity(0.6))
             .overlay {
                 /// Shimmer Effect
@@ -112,6 +109,7 @@ struct SlideToConfirm: View {
                     }
                     .mask(alignment: .leading) {
                         Text(isCompleted ? config.confirmationText : config.idleText)
+                            .avertaFont(size: 18)
                     }
                     .blendMode(.softLight)
             }
@@ -173,16 +171,3 @@ struct SlideToConfirm: View {
         var knobPadding: CGFloat = 4
     }
 }
-
-#Preview {
-    SlideToConfirm(config: SlideToConfirm.Config(
-        idleText: "Swipe to start",
-        onSwipeText: "Let's go!",
-        confirmationText: "You can do it",
-        tint: Color.bluePrimary,
-        foregroundColor: .white
-    )) {
-        print("Swipe")
-    }
-}
-

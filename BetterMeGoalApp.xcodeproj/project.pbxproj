@@ -10,6 +10,7 @@
 		36012D062E02B4B300367992 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 36012D052E02B4B300367992 /* FirebaseAnalytics */; };
 		36012D092E02B61800367992 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 36012D082E02B61800367992 /* FirebaseAuth */; };
 		3614BDF42E2A460F00B4A76B /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 3614BDF32E2A460F00B4A76B /* Lottie */; };
+		36206E072E2F7B7100869088 /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = 36206E062E2F7B7100869088 /* Shimmer */; };
 		36F2646F2E1B7B7B00403C34 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 36F2646E2E1B7B7B00403C34 /* FirebaseFirestore */; };
 		36F9BE252E03E35400B98AC0 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 36F9BE242E03E35400B98AC0 /* Swinject */; };
 /* End PBXBuildFile section */
@@ -44,6 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				36206E072E2F7B7100869088 /* Shimmer in Frameworks */,
 				3614BDF42E2A460F00B4A76B /* Lottie in Frameworks */,
 				36012D062E02B4B300367992 /* FirebaseAnalytics in Frameworks */,
 				36F2646F2E1B7B7B00403C34 /* FirebaseFirestore in Frameworks */,
@@ -104,6 +106,7 @@
 				36F9BE242E03E35400B98AC0 /* Swinject */,
 				36F2646E2E1B7B7B00403C34 /* FirebaseFirestore */,
 				3614BDF32E2A460F00B4A76B /* Lottie */,
+				36206E062E2F7B7100869088 /* Shimmer */,
 			);
 			productName = BetterMeGoalApp;
 			productReference = 3620D6402DFBD47500FEDB64 /* BetterMeGoalApp.app */;
@@ -137,6 +140,7 @@
 				36012D042E02B4B300367992 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				36F9BE232E03E35400B98AC0 /* XCRemoteSwiftPackageReference "Swinject" */,
 				3614BDF22E2A460F00B4A76B /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				36206E052E2F7B7100869088 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3620D6412DFBD47500FEDB64 /* Products */;
@@ -390,6 +394,14 @@
 				minimumVersion = 4.5.2;
 			};
 		};
+		36206E052E2F7B7100869088 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/markiv/SwiftUI-Shimmer";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.5.1;
+			};
+		};
 		36F9BE232E03E35400B98AC0 /* XCRemoteSwiftPackageReference "Swinject" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Swinject/Swinject";
@@ -415,6 +427,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3614BDF22E2A460F00B4A76B /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
+		};
+		36206E062E2F7B7100869088 /* Shimmer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 36206E052E2F7B7100869088 /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */;
+			productName = Shimmer;
 		};
 		36F2646E2E1B7B7B00403C34 /* FirebaseFirestore */ = {
 			isa = XCSwiftPackageProductDependency;

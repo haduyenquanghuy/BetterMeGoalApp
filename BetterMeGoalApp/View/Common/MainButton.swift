@@ -34,7 +34,7 @@ struct MainButton: View {
             }
             
             Text(title)
-                .avertaFont(size: 16)
+                .avertaFont(size: style.textSize)
                 .fontWeight(.semibold)
                 .foregroundStyle(style.textColor)
         }
@@ -45,6 +45,7 @@ struct MainButton: View {
         case secondary
         case sso
         case disable
+        case underline
         
         var textColor: Color {
             switch self {
@@ -52,7 +53,12 @@ struct MainButton: View {
                 case .secondary: return .bluePrimary
                 case .sso: return .ink80
                 case .disable: return .white.opacity(0.96)
+                case .underline: return .ink60
             }
+        }
+        
+        var textSize: CGFloat {
+            return self == .disable ? 20 : 16
         }
     }
 }
@@ -74,6 +80,8 @@ private extension View {
                 )
             case .disable:
                 return AnyView(self.buttonStyle(DisabledButtonStyle()))
+            case .underline:
+                return AnyView(self.buttonStyle(UnderlineButtonStyle()))
         }
     }
 }
@@ -124,6 +132,20 @@ struct DisabledButtonStyle: ButtonStyle {
     }
 }
 
+struct UnderlineButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .underline(color: Color.ink80)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .padding(.vertical, 8)
+            .padding(.horizontal, 16)
+            .background(Color.clear)
+            .scaleEffect(configuration.isPressed ? 0.92 : 1.0)
+            .animation(.easeOut(duration: 0.15), value: configuration.isPressed)
+            .clipShape(.rect(cornerRadius: 32))
+    }
+}
+
 
 // MARK: - Preview
 
@@ -136,6 +158,8 @@ struct DisabledButtonStyle: ButtonStyle {
         MainButton(style: .disable, title: "Login")
         
         MainButton(style: .sso, title: "Login", leftImage: .icFb)
+        
+        MainButton(style: .underline, title: "Login")
     }
     .padding(.horizontal, 32)
 }
