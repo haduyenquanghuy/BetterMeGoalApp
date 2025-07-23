@@ -14,6 +14,7 @@ struct CreateTaskByQualityView: View {
     @State var isEdit: Bool = false
     @StateObject var userInput = UserInputNumberModel()
     @EnvironmentObject private var router: Router
+    @EnvironmentObject private var goalStore: GoalStore
     
     var body: some View {
         
@@ -32,8 +33,8 @@ struct CreateTaskByQualityView: View {
                 }
                 
                 HStack(spacing: 8) {
-                    EditValueButtonView(image: .icPlusSign) {
-                        userInput.add(with: 1)
+                    EditValueButtonView(image: .icMinusSign) {
+                        userInput.sub(with: 1)
                     }
                     .disabled(isEdit)
                     
@@ -82,8 +83,8 @@ struct CreateTaskByQualityView: View {
                             .strokeBorder(Color.bluePrimary, lineWidth: isEdit ? 2 : 0)
                     }
                     
-                    EditValueButtonView(image: .icMinusSign) {
-                        userInput.sub(with: 1)
+                    EditValueButtonView(image: .icPlusSign) {
+                        userInput.add(with: 1)
                     }
                     .disabled(isEdit)
                 }
@@ -131,7 +132,8 @@ struct CreateTaskByQualityView: View {
             Spacer()
             
             MainButton(height: 44, title: "Start now") {
-                
+                router.goalRoutes.append(.taskInProgress(goal: goal))
+                goalStore.send(.setTargetForQuantityGoal(userInput.number))
             }
             .padding(.bottom, 12)
             .padding(.horizontal, 16)
@@ -193,4 +195,5 @@ struct EditValueButtonView : View {
 
 #Preview {
     CreateTaskByQualityView(goal: GoalModel(title: "Buy a new house", description: "Save money to buy a new house"))
+        .environmentObject(GoalStore(service: GoalService(), shareStore: ShareStore()))
 }

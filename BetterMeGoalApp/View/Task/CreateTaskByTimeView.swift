@@ -19,6 +19,7 @@ class TaskTimerViewModel: ObservableObject {
     @Published var taskState: TaskState = .idle
     @Published var isPaused: Bool = false
 
+    var targetForTimeGoal: String = ""
     let totalDuration: TimeInterval = 120 * 60
     var timer: Timer.TimerPublisher = Timer.publish(every: 1, on: .main, in: .common)
     private var cancellable: Cancellable?
@@ -36,6 +37,7 @@ class TaskTimerViewModel: ObservableObject {
 
     func start() {
         timeDuration = totalDuration * currentValue / 100
+        targetForTimeGoal = "Target: \(timeLabel)"
         angle = 360 * currentValue / 100
         taskState = .running
         isPaused = false
@@ -167,11 +169,13 @@ struct CreateTaskByTimeView: View {
                 .avertaFont(size: 22)
                 .fontWeight(.semibold)
                 .foregroundStyle(.black)
-
-            Text(goal.description ?? "")
-                .avertaFont(size: 14)
-                .fontWeight(.regular)
-                .foregroundStyle(.ink80)
+            
+            if viewModel.taskState == .running {
+                Text(viewModel.targetForTimeGoal)
+                    .avertaFont(size: 16)
+                    .fontWeight(.regular)
+                    .foregroundStyle(.ink80)
+            }
         }
     }
 

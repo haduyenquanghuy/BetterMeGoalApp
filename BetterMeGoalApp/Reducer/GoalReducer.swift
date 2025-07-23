@@ -19,6 +19,7 @@ final class GoalStore: ObservableObject {
     
     struct Cache {
         var listDaysOfWeek:[String] = []
+        var targetForQuantityGoal: Int = 0
     }
     
     enum Action {
@@ -28,6 +29,7 @@ final class GoalStore: ObservableObject {
         case setGoals([GoalModel])
         case isLoading(Bool)
         case setDetailGoal(GoalModel)
+        case setTargetForQuantityGoal(Int)
     }
     
     @Published var state = State()
@@ -55,6 +57,8 @@ final class GoalStore: ObservableObject {
                 fetchDetailGoal(goalId: goalId)
             case .setDetailGoal(let value):
                 state.currentGoal = value
+            case .setTargetForQuantityGoal(let value):
+                cache.targetForQuantityGoal = value
         }
     }
     

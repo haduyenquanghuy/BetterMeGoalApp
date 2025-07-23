@@ -111,7 +111,7 @@ struct DetailGoalScreen: View {
             .frame(maxWidth: .infinity)
             
             MainButton(title: "Create Task") {
-                router.goalRoutes.append(.creatTask(goal: goal))
+                router.goalRoutes.append(.createTask(goal: goal))
             }
             .frame(height: 44)
             .frame(maxWidth: .infinity)

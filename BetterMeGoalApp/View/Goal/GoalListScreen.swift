@@ -72,8 +72,10 @@ struct GoalListScreen: View {
             switch route {
                 case .detailGoal(goalId: let id):
                     DetailGoalScreen(goalId: id)
-                case .creatTask(goal: let goal):
+                case .createTask(goal: let goal):
                     CreateTaskScreen(goal: goal)
+                case .taskInProgress(goal: let goal):
+                    TaskInProgressScreen(goal: goal)
             }
         }
         .onAppear {
