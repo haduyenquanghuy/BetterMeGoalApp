@@ -20,6 +20,8 @@ final class ShareStore: ObservableObject {
                 state.isLoading = value
             case .showTabbar(let isShow):
                 state.isShowTabbar = isShow
+            case .showDialog(let isShow):
+                state.showDialog = isShow
         }
     }
 }
@@ -29,6 +31,7 @@ extension ShareStore {
     struct State {
         var isLoading: Bool = false
         var isShowTabbar: Bool = true
+        var showDialog: Bool = false
     }
     
     struct Cache {
@@ -38,6 +41,7 @@ extension ShareStore {
     enum Action {
         case setLoading(Bool)
         case showTabbar(Bool)
+        case showDialog(Bool)
     }
 }
 

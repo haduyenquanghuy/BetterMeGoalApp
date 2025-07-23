@@ -12,9 +12,10 @@ struct TaskInProgressScreen: View {
 
     @EnvironmentObject private var router: Router
     @EnvironmentObject private var goalStore: GoalStore
+    @EnvironmentObject private var shareStore: ShareStore
     
     @State private var secondsElapsed = 0
-    @State private var playbackMode: LottiePlaybackMode = .playing(.fromProgress(0, toProgress: 1, loopMode: .loop))
+    @State private var playbackMode: LottiePlaybackMode = .paused(at: .time(0))
     @State private var isPause = false
     
     let goal: GoalModel
@@ -45,7 +46,7 @@ struct TaskInProgressScreen: View {
                         .fontWeight(.semibold)
                         .foregroundStyle(.ink80)
                         .contentTransition(.numericText(countsDown: false))
-                        .animation(.linear(duration: 1), value: secondsElapsed)
+                        .animation(.linear(duration: 0.5), value: secondsElapsed)
                 }
                 
                 HStack(spacing: 24) {
@@ -87,6 +88,9 @@ struct TaskInProgressScreen: View {
             VStack {
                 MainButton(style:.redPrimary, title: "I DID IT!") {
                     
+                    withAnimation(.linear(duration: 0.48)) {
+                        shareStore.send(.showDialog(true))
+                    }
                 }
                 
                 MainButton(style: .underline, title: "Give up") {
@@ -120,6 +124,7 @@ struct TaskInProgressScreen: View {
         .navigationBarBackButtonHidden(true)
         .onAppear {
             startTimer()
+            playbackMode = .playing(.fromProgress(0, toProgress: 1, loopMode: .loop))
         }
     }
     
@@ -144,5 +149,6 @@ struct TaskInProgressScreen: View {
         TaskInProgressScreen(goal:  GoalModel(title: "Buy a new house", description: "Save money to buy a new house"))
             .environmentObject(Router())
             .environmentObject(GoalStore(service: GoalService(), shareStore: ShareStore()))
+            .environmentObject(ShareStore())
     }
 }

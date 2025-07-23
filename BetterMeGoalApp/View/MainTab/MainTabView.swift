@@ -18,33 +18,50 @@ struct MainTabView: View {
     @State private var selectedTab: TabSection = .goal
     
     var body: some View {
-        TabView(selection: $selectedTab) {
-            
-            NavigationStack(path: $router.goalRoutes) { GoalListScreen() }
-                .tag(TabSection.goal)
-            
-            NavigationStack { DairyView() }
-                .tag(TabSection.dairy)
-            
-            NavigationStack { CompleteView() }
-                .tag(TabSection.complete)
-            
-            NavigationStack { ProfileView() }
-                .tag(TabSection.profile)
-        }
-        .toolbar(.hidden, for: .tabBar)
-        .ignoresSafeArea(.keyboard)
-        .edgesIgnoringSafeArea(.bottom)
-        .overlay(alignment: .bottom) {
-            if shareStore.state.isShowTabbar {
-                MainTabbarView(selectedTab: $selectedTab, showCreate: $createStore.state.isShow)
-                    .background(Color.white)
-                    .transition(.asymmetric(insertion: .move(edge: .bottom), removal: .opacity))
+        ZStack {
+            TabView(selection: $selectedTab) {
+                
+                NavigationStack(path: $router.goalRoutes) { GoalListScreen() }
+                    .tag(TabSection.goal)
+                
+                NavigationStack { DairyView() }
+                    .tag(TabSection.dairy)
+                
+                NavigationStack { CompleteView() }
+                    .tag(TabSection.complete)
+                
+                NavigationStack { ProfileView() }
+                    .tag(TabSection.profile)
+            }
+            .toolbar(.hidden, for: .tabBar)
+            .ignoresSafeArea(.keyboard)
+            .edgesIgnoringSafeArea(.bottom)
+            .overlay(alignment: .bottom) {
+                if shareStore.state.isShowTabbar {
+                    MainTabbarView(selectedTab: $selectedTab, showCreate: $createStore.state.isShow)
+                        .background(Color.white)
+                        .transition(.asymmetric(insertion: .move(edge: .bottom), removal: .opacity))
+                }
             }
         }
         .overlay(loadingOverlay)
+        .overlay(dialogOverlay)
         .fullScreenCover(isPresented: $createStore.state.isShow) {
             SelectGoalTypeScreen(isShow: $createStore.state.isShow)
+        }
+    }
+    
+    @ViewBuilder var dialogOverlay: some View {
+        if shareStore.state.showDialog {
+            TaskCompleteDialogView(taskTitle: "Reading 5 pages")
+                .transition(.move(edge: .bottom))
+                .onTapGesture {
+                    withAnimation(.linear(duration: 0.25)) {
+                        shareStore.send(.showDialog(false))
+                    }
+                }
+        } else {
+            EmptyView()
         }
     }
     
