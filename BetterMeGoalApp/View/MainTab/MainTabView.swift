@@ -44,32 +44,35 @@ struct MainTabView: View {
                 }
             }
         }
-        .overlay(loadingOverlay)
-        .overlay(dialogOverlay)
+        .overlay(blackOverlay)
+        .overlay(viewOverlay)
         .fullScreenCover(isPresented: $createStore.state.isShow) {
             SelectGoalTypeScreen(isShow: $createStore.state.isShow)
         }
     }
     
-    @ViewBuilder var dialogOverlay: some View {
-        if shareStore.state.showDialog {
-            TaskCompleteDialogView(taskTitle: "Reading 5 pages")
-                .transition(.move(edge: .bottom))
+    @ViewBuilder var blackOverlay: some View {
+        if shareStore.state.overlayType != .none {
+            Color.black.opacity(0.44)
+                .ignoresSafeArea()
+                .transition(.opacity)
                 .onTapGesture {
-                    withAnimation(.linear(duration: 0.25)) {
-                        shareStore.send(.showDialog(false))
-                    }
+                    shareStore.send(.present(.none))
                 }
         } else {
             EmptyView()
         }
     }
-    
-    @ViewBuilder var loadingOverlay: some View {
-        if shareStore.state.isLoading {
-            LoadingView()
-        } else {
-            EmptyView()
+
+    @ViewBuilder var viewOverlay: some View {
+        switch shareStore.state.overlayType {
+            case .loading:
+                LoadingView()
+            case .dialog:
+                TaskCompleteDialogView()
+                    .transition(.move(edge: .bottom))
+            case .none:
+                EmptyView()
         }
     }
 }

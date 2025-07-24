@@ -89,7 +89,7 @@ struct TaskInProgressScreen: View {
                 MainButton(style:.redPrimary, title: "I DID IT!") {
                     
                     withAnimation(.linear(duration: 0.48)) {
-                        shareStore.send(.showDialog(true))
+                        shareStore.send(.present(.dialog))
                     }
                 }
                 

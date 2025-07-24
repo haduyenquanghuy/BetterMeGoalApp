@@ -68,13 +68,13 @@ final class GoalStore: ObservableObject {
             return
         }
         
-        shareStore.send(.setLoading(true))
+        shareStore.send(.present(.loading))
         
         Task {
             do {
                 let goals = try await service.fetchGoals(userId: userId)
                 send(.setGoals(goals))
-                shareStore.send(.setLoading(false))
+                shareStore.send(.present(.none))
                 
             } catch {
                 print("❌ Lỗi fetch goals: \(error)")
@@ -88,13 +88,13 @@ final class GoalStore: ObservableObject {
             return
         }
         
-        shareStore.send(.setLoading(true))
+        shareStore.send(.present(.loading))
         
         Task {
             do {
                 let goal = try await service.fetchGoal(userId: userId, goalId: goalId)
                 send(.setDetailGoal(goal))
-                shareStore.send(.setLoading(false))
+                shareStore.send(.present(.none))
             } catch {
                 print("❌ Lỗi fetch goals: \(error)")
             }

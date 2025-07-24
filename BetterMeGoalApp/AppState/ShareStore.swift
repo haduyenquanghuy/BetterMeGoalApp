@@ -16,12 +16,10 @@ final class ShareStore: ObservableObject {
     
     func send(_ action: Action) {
         switch action {
-            case .setLoading(let value):
-                state.isLoading = value
             case .showTabbar(let isShow):
                 state.isShowTabbar = isShow
-            case .showDialog(let isShow):
-                state.showDialog = isShow
+            case .present(let overlay):
+                state.overlayType = overlay
         }
     }
 }
@@ -29,9 +27,8 @@ final class ShareStore: ObservableObject {
 extension ShareStore {
     
     struct State {
-        var isLoading: Bool = false
         var isShowTabbar: Bool = true
-        var showDialog: Bool = false
+        var overlayType: OverlayType = .none
     }
     
     struct Cache {
@@ -39,9 +36,14 @@ extension ShareStore {
     }
     
     enum Action {
-        case setLoading(Bool)
         case showTabbar(Bool)
-        case showDialog(Bool)
+        case present(OverlayType)
     }
+}
+
+enum OverlayType {
+    case loading
+    case dialog
+    case none
 }
 

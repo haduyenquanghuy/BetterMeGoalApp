@@ -122,13 +122,13 @@ final class CreateStore: ObservableObject {
             return
         }
         
-        shareStore.send(.setLoading(true))
+        shareStore.send(.present(.loading))
         
         Task {
             do {
                 let docId = try await createService.createGoal(goal: goal, userId: userId)
                 print("✅ Tạo thành công, ID: \(docId)")
-                shareStore.send(.setLoading(false))
+                shareStore.send(.present(.none))
                 send(.setIsShow(false))
             } catch {
                 print("❌ Lỗi khi tạo goal: \(error)")

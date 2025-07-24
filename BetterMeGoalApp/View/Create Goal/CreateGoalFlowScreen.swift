@@ -50,7 +50,7 @@ struct CreateGoalFlowScreen: View {
     }
     
     @ViewBuilder var loadingOverlay: some View {
-        if shareStore.state.isLoading {
+        if shareStore.state.overlayType == .loading {
             LoadingView()
         } else {
             EmptyView()
